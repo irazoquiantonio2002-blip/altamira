@@ -1,0 +1,281 @@
+/* ============================================
+   ALTAMIRA LA CIMA — Cosmos Hero
+   GSAP ScrollTrigger pin + scrub through a
+   Three.js starfield / "La Cima" mountain flythrough
+   ============================================ */
+
+.hero {
+  position: relative;
+  background: var(--navy-950);
+}
+
+.hero__pin {
+  position: relative;
+  height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+/* ── Full-bleed real photo, sitting behind the WebGL canvas.
+   The canvas clears to transparent, so wherever the scene has no
+   geometry (mostly the open sky) this shows straight through — the
+   stars/title composite on top of it, not the other way around.
+   A dark scrim keeps the title/subtitle legible over it regardless
+   of how bright any given part of the photo is. */
+.hero__backdrop {
+  --dark: 0.97;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 5, 14, 0.6) 0%, rgba(2, 5, 14, 0.35) 35%, rgba(2, 5, 14, 0.8) 100%),
+    rgba(2, 5, 14, var(--dark));
+  transition: background-color 0.1s linear;
+}
+
+.hero__backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% center;
+  opacity: 0.85;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* ── Study icon — a real 3D point on the mountain ridge, projected to
+   screen space every frame in hero-cosmos.js's animate() loop. left/top
+   and the scale() transform are set entirely by JS; this block only
+   supplies the visual treatment and the anchor (top-left = 0,0, with
+   translate(-50%,-100%) from JS centering it and sitting its base on
+   the projected point). */
+.hero__study-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: clamp(50px, 5.2vw, 78px);
+  height: auto;
+  filter: brightness(0) invert(1) drop-shadow(0 4px 16px rgba(2, 6, 16, 0.6));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, left, top;
+}
+
+
+/* ── WebGL canvas ── */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Static gradient shown if WebGL fails to init */
+.hero--fallback .hero__pin {
+  background: radial-gradient(120% 90% at 50% 20%, var(--navy-700) 0%, var(--navy-950) 65%);
+}
+
+.hero--fallback .hero__canvas { display: none; }
+
+/* ── Side brand mark ── */
+.hero__side-mark {
+  position: absolute;
+  left: var(--space-8);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hero__side-mark-text {
+  display: block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Stages (crossfade as the camera flies through) ── */
+.hero__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: min(92vw, 860px);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.hero__stage[data-stage='0'] { opacity: 1; }
+
+.hero__stage .eyebrow {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-8xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  text-shadow: 0 2px 3px rgba(2, 6, 16, 0.85), 0 16px 60px rgba(2, 6, 16, 0.55);
+}
+
+.hero__stage .eyebrow {
+  text-shadow: 0 2px 10px rgba(2, 6, 16, 0.8);
+}
+
+.hero__title-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.hero__subtitle-group {
+  margin-top: var(--space-6);
+}
+
+.hero__stage-cta {
+  margin-top: var(--space-8);
+  pointer-events: none; /* enabled by JS only while its stage is on-screen */
+  box-shadow: 0 1px 0 rgba(4, 8, 20, 0.15) inset, 0 20px 50px rgba(2, 6, 16, 0.45);
+}
+
+.hero__subtitle-line {
+  font-family: var(--font-accent);
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: var(--font-light);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-relaxed);
+  text-shadow: 0 2px 16px rgba(2, 6, 16, 0.7), 0 1px 3px rgba(2, 6, 16, 0.9);
+}
+
+/* ── Scroll progress (bottom center) ── */
+.hero__scroll-progress {
+  position: absolute;
+  bottom: clamp(28px, 4.5vh, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: min(90vw, 340px);
+}
+
+.hero__scroll-progress-text {
+  font-family: var(--font-accent);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  flex-shrink: 0;
+}
+
+.hero__scroll-progress-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.hero__scroll-progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: var(--blue-300);
+  border-radius: var(--radius-full);
+}
+
+.hero__scroll-progress-count {
+  font-family: var(--font-accent);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   TRUST BAR — floating stat strip bridging hero/content
+   ============================================ */
+.trustbar {
+  position: relative;
+  z-index: 6;
+  margin-top: -64px;
+}
+
+.trustbar__inner {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-10);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  color: var(--color-white);
+  box-shadow: var(--shadow-xl);
+}
+
+.trustbar__divider {
+  width: 1px;
+  align-self: center;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.trustbar .stat-block__number { color: var(--color-white); }
+
+@media (max-width: 1100px) {
+  .trustbar__inner { max-width: calc(100% - 2.5rem); }
+}
+
+@media (max-width: 860px) {
+  .trustbar { margin-top: -40px; }
+  .trustbar__inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6) var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+  }
+  .trustbar__divider { display: none; }
+  .stat-block__number { font-size: var(--text-4xl); }
+}
+
+/* ── Mobile Adjustments ── */
+@media (max-width: 768px) {
+  .hero__title { font-size: var(--text-5xl); }
+  .hero__side-mark { display: none; }
+  .hero__stage { width: min(90vw, 420px); }
+  .hero__subtitle-line { font-size: var(--text-base); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage { transition: none !important; }
+  .hero__stage[data-stage='0'] { opacity: 1 !important; transform: translate(-50%, -50%) !important; }
+  .hero__stage:not([data-stage='0']) { display: none; }
+  .hero__scroll-progress { display: none; }
+}

@@ -1,0 +1,151 @@
+/* ============================================
+   ALTAMIRA LA CIMA — Design System V3
+   Monochrome-blue corporate · enterprise premium
+   Brand blue sourced from the school's own crest
+   ============================================ */
+
+:root {
+  /* ── Brand Blue Scale (from official crest / theme) ── */
+  --navy-950: #04070d;         /* deepest — hero/footer base */
+  --navy-900: #061945;         /* brand dark hover */
+  --navy-800: #0e2150;
+  --navy-700: #192e5e;         /* ★ BRAND NAVY — exact crest color */
+  --blue-600: #1c5596;
+  --blue-500: #376fb0;         /* brand medium blue */
+  --blue-400: #1d79c4;
+  --blue-300: #429be3;         /* brand soft/light blue */
+  --blue-100: #e8ebf0;
+  --blue-50:  #f5f7fb;
+
+  --color-primary: var(--navy-700);
+  --color-primary-light: var(--blue-500);
+  --color-primary-dark: var(--navy-950);
+  --color-primary-rgb: 25, 46, 94;
+
+  /* ── Accent — used sparingly, ceremonial only ── */
+  --color-accent: #b89a56;
+  --color-accent-light: #d4b96e;
+  --color-accent-dark: #9a7f3f;
+  --color-accent-rgb: 184, 154, 86;
+
+  /* ── Neutral ── */
+  --color-white: #ffffff;
+  --color-off-white: #f6f7f9;
+  --color-cream: var(--blue-50);
+  --color-light-gray: var(--blue-100);
+  --color-mid-gray: #8a929e;
+  --color-dark-gray: #4a5163;
+  --color-charcoal: #10131c;
+  --color-black: #05070c;
+  --color-success: #1c8a5e;
+
+  /* ── Typography ── */
+  --font-display: 'Jost', 'Century Gothic', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: var(--font-display);
+  --font-accent: var(--font-body);
+  --font-mono: var(--font-body);
+
+  --text-xs:   clamp(0.7rem, 0.68rem + 0.1vw, 0.78rem);
+  --text-sm:   clamp(0.8rem, 0.77rem + 0.15vw, 0.88rem);
+  --text-base: clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem);
+  --text-lg:   clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+  --text-xl:   clamp(1.2rem, 1.1rem + 0.45vw, 1.4rem);
+  --text-2xl:  clamp(1.4rem, 1.28rem + 0.6vw, 1.7rem);
+  --text-3xl:  clamp(1.7rem, 1.5rem + 1vw, 2.2rem);
+  --text-4xl:  clamp(2.1rem, 1.8rem + 1.5vw, 2.85rem);
+  --text-5xl:  clamp(2.6rem, 2.1rem + 2.2vw, 3.6rem);
+  --text-6xl:  clamp(3.2rem, 2.4rem + 3.5vw, 4.6rem);
+  --text-7xl:  clamp(3.8rem, 2.5rem + 5.8vw, 6.6rem);
+  --text-8xl:  clamp(4.4rem, 2.6rem + 8.2vw, 8.6rem);
+  --text-9xl:  clamp(5.2rem, 2.6rem + 11.5vw, 11.5rem);
+
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  --leading-none: 1;
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  --tracking-tight: -0.03em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.12em;
+  --tracking-widest: 0.22em;
+
+  /* ── Spacing ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
+
+  --container-xl: 1280px;
+  --container-2xl: 1440px;
+  --container-padding: clamp(1.5rem, 5vw, 3rem);
+
+  /* ── Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-2xl: 30px;
+  --radius-full: 999px;
+
+  /* ── Shadows — tinted toward brand navy, not neutral black ── */
+  --shadow-sm: 0 2px 10px rgba(4, 12, 30, 0.06);
+  --shadow-md: 0 8px 24px rgba(4, 12, 30, 0.10);
+  --shadow-lg: 0 20px 48px rgba(4, 12, 30, 0.14);
+  --shadow-xl: 0 30px 70px rgba(4, 12, 30, 0.20);
+  --shadow-glow: 0 0 60px rgba(55, 111, 176, 0.35);
+
+  /* ── Gradients ── */
+  --gradient-primary: linear-gradient(160deg, var(--navy-700) 0%, var(--navy-950) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--blue-300) 0%, var(--blue-500) 100%);
+  --gradient-mesh: radial-gradient(60% 60% at 15% 20%, rgba(66, 155, 227, 0.35) 0%, transparent 60%),
+                    radial-gradient(50% 50% at 85% 80%, rgba(25, 46, 94, 0.55) 0%, transparent 60%);
+  --gradient-text: linear-gradient(100deg, #ffffff 20%, var(--blue-300) 60%, #ffffff 90%);
+
+  /* ── Glass ── */
+  --glass-bg: rgba(6, 20, 45, 0.55);
+  --glass-bg-light: rgba(255, 255, 255, 0.06);
+  --glass-blur: 20px;
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* ── Noise texture (grain overlay) ── */
+  --noise-bg: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 700ms;
+
+  --transition-fast: 200ms var(--ease-out);
+  --transition-base: 400ms var(--ease-out);
+  --transition-slow: 600ms var(--ease-out);
+  --transition-slower: 900ms var(--ease-out);
+
+  /* ── Z-Index ── */
+  --z-navbar: 1000;
+  --z-overlay: 1100;
+  --z-preloader: 9999;
+}

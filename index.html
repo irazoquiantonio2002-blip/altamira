@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- SEO Meta Tags -->
+  <title>Colegio Altamira La Cima | Formación Integral en Zapopan, Jalisco</title>
+  <meta name="description" content="Colegio Altamira La Cima: institución educativa de formación integral centrada en la persona. Elementary, Middle School y High School en Zapopan, Jalisco. Agenda tu cita de admisión.">
+  <meta name="keywords" content="Colegio Altamira La Cima, escuela privada Zapopan, formación integral, educación diferenciada, elementary, middle school, high school, admisiones Jalisco">
+  <meta name="author" content="Colegio Altamira La Cima">
+  <link rel="canonical" href="https://altamiralacima.mx">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Colegio Altamira La Cima | Formación Integral">
+  <meta property="og:description" content="Institución educativa de formación integral centrada en la persona. Elementary, Middle School y High School en Zapopan, Jalisco.">
+  <meta property="og:url" content="https://altamiralacima.mx">
+  <meta property="og:image" content="assets/img/hero-bg.jpg">
+  <meta property="og:locale" content="es_MX">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#192e5e">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Colegio Altamira La Cima",
+    "url": "https://altamiralacima.mx",
+    "logo": "https://altamiralacima.mx/assets/img/logos/logo_altamira_lacima_blanco.svg",
+    "description": "Institución educativa de formación integral centrada en la persona",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. La Cima 614",
+      "addressLocality": "Zapopan",
+      "addressRegion": "Jalisco",
+      "postalCode": "45134",
+      "addressCountry": "MX"
+    },
+    "telephone": "+523338342433",
+    "email": "admisiones@altamira.edu.mx",
+    "sameAs": [
+      "https://www.facebook.com/ColegioAltamiraLaCima",
+      "https://www.instagram.com/colegioaltamiralacima/",
+      "https://www.youtube.com/channel/UC_RV6VjGYYCR2OpDoFXYv8g"
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Three.js (ES modules via import map — no bundler needed) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       PRELOADER
+       ═══════════════════════════════════════ -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__spinner"></div>
+    <p class="preloader__text">Altamira</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+       ═══════════════════════════════════════ -->
+  <header class="navbar" id="navbar-main">
+    <div class="navbar__inner">
+      <!-- Logo -->
+      <a href="#hero" class="navbar__logo" id="nav-logo">
+        <img src="assets/img/logos/logo_altamira_lacima_blanco.svg" alt="Colegio Altamira La Cima" width="160" height="45">
+      </a>
+
+      <!-- Desktop Menu -->
+      <nav class="navbar__menu" id="nav-desktop-menu" aria-label="Menú principal">
+        <ul style="display:flex;align-items:center;gap:2px;list-style:none;">
+          <!-- Oferta Educativa -->
+          <li class="navbar__item">
+            <a href="#oferta" class="navbar__link" id="nav-oferta">
+              Oferta Educativa <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span>
+            </a>
+            <div class="navbar__dropdown" id="dropdown-oferta">
+              <a href="#about" class="navbar__dropdown-link">Conócenos</a>
+              <a href="#oferta" class="navbar__dropdown-link">Elementary</a>
+              <a href="#oferta" class="navbar__dropdown-link">Middle School</a>
+              <a href="#oferta" class="navbar__dropdown-link">High School</a>
+              <a href="#instalaciones" class="navbar__dropdown-link">Instalaciones</a>
+            </div>
+          </li>
+
+          <!-- Portal Padres -->
+          <li class="navbar__item">
+            <a href="#" class="navbar__link" id="nav-portal">
+              Portal Padres <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span>
+            </a>
+            <div class="navbar__dropdown" id="dropdown-portal">
+              <a href="https://lacima.servoescolar.mx/Inicio.aspx" target="_blank" class="navbar__dropdown-link">Servoescolar</a>
+              <a href="https://lacima.ecolmenares.net/" target="_blank" class="navbar__dropdown-link">SIE</a>
+            </div>
+          </li>
+
+          <!-- Algebraix -->
+          <li class="navbar__item">
+            <a href="https://c1-altamiralacima.algebraix.com/bin/g/start/default/?x_load=0" target="_blank" class="navbar__link" id="nav-algebraix">Algebraix</a>
+          </li>
+
+          <!-- Servicios -->
+          <li class="navbar__item">
+            <a href="#" class="navbar__link" id="nav-servicios">
+              Servicios <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span>
+            </a>
+            <div class="navbar__dropdown" id="dropdown-servicios">
+              <a href="https://highsights.mx/" target="_blank" class="navbar__dropdown-link">High Sights</a>
+              <a href="https://calendar.google.com/calendar/u/0?cid=Y18wM2E2OTBkYTcwOWQ5ODJmZjQwMzg1ZGE4MjEwYzY3YTQyMTc1ZTBhZmJjMDZkZDg2NmRmM2YwY2I5YjBkODY1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20" target="_blank" class="navbar__dropdown-link">Calendario</a>
+            </div>
+          </li>
+
+          <!-- Contacto -->
+          <li class="navbar__item">
+            <a href="#contacto" class="navbar__link" id="nav-contacto">
+              Contacto <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span>
+            </a>
+            <div class="navbar__dropdown" id="dropdown-contacto">
+              <a href="tel:3338342433" class="navbar__dropdown-link"><i class="fas fa-phone"></i>&nbsp; 33 3834 2433</a>
+              <a href="https://api.whatsapp.com/send?phone=5213317680743" target="_blank" class="navbar__dropdown-link"><i class="fab fa-whatsapp"></i>&nbsp; WhatsApp</a>
+            </div>
+          </li>
+        </ul>
+
+        <!-- CTA -->
+        <a href="#contacto" class="navbar__cta navbar__cta-desktop" id="nav-cta">Admisiones</a>
+      </nav>
+
+      <!-- Hamburger -->
+      <button class="navbar__toggle" id="nav-toggle" aria-label="Abrir menú">
+        <span class="navbar__toggle-line"></span>
+        <span class="navbar__toggle-line"></span>
+        <span class="navbar__toggle-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="navbar__mobile-overlay" id="nav-mobile-overlay"></div>
+
+  <!-- Mobile Menu -->
+  <nav class="navbar__mobile" id="nav-mobile" aria-label="Menú móvil">
+    <div class="navbar__mobile-item">
+      <a href="#" class="navbar__mobile-link">Oferta Educativa <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span></a>
+      <div class="navbar__mobile-dropdown">
+        <a href="#about">Conócenos</a>
+        <a href="#oferta">Elementary</a>
+        <a href="#oferta">Middle School</a>
+        <a href="#oferta">High School</a>
+        <a href="#instalaciones">Instalaciones</a>
+      </div>
+    </div>
+    <div class="navbar__mobile-item">
+      <a href="#" class="navbar__mobile-link">Portal Padres <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span></a>
+      <div class="navbar__mobile-dropdown">
+        <a href="https://lacima.servoescolar.mx/Inicio.aspx" target="_blank">Servoescolar</a>
+        <a href="https://lacima.ecolmenares.net/" target="_blank">SIE</a>
+      </div>
+    </div>
+    <div class="navbar__mobile-item">
+      <a href="https://c1-altamiralacima.algebraix.com/bin/g/start/default/?x_load=0" target="_blank" class="navbar__mobile-link">Algebraix</a>
+    </div>
+    <div class="navbar__mobile-item">
+      <a href="#" class="navbar__mobile-link">Servicios <span class="navbar__link-icon"><i class="fas fa-chevron-down"></i></span></a>
+      <div class="navbar__mobile-dropdown">
+        <a href="https://highsights.mx/" target="_blank">High Sights</a>
+        <a href="https://calendar.google.com/calendar/u/0?cid=Y18wM2E2OTBkYTcwOWQ5ODJmZjQwMzg1ZGE4MjEwYzY3YTQyMTc1ZTBhZmJjMDZkZDg2NmRmM2YwY2I5YjBkODY1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20" target="_blank">Calendario</a>
+      </div>
+    </div>
+    <div class="navbar__mobile-item">
+      <a href="#contacto" class="navbar__mobile-link">Contacto</a>
+    </div>
+    <a href="#contacto" class="navbar__mobile-cta">Admisiones</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO — Cosmos flythrough (Three.js)
+       Three acts: Altamira → Formación → Futuro
+       ═══════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero__pin">
+      <div class="hero__backdrop" aria-hidden="true">
+        <img src="assets/img/hero/campus-backdrop.jpg" alt="">
+      </div>
+      <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+
+      <img src="assets/img/hero/nino-estudiando.png" alt="" class="hero__study-icon" id="hero-study-icon" aria-hidden="true">
+
+      <div class="hero__side-mark" aria-hidden="true">
+        <span class="hero__side-mark-text">La Cima</span>
+      </div>
+
+      <!-- Stage 0 — Altamira -->
+      <div class="hero__stage" data-stage="0">
+        <span class="eyebrow eyebrow--on-dark">Zapopan, Jalisco</span>
+        <h1 class="hero__title">Altamira</h1>
+        <div class="hero__subtitle-group">
+          <p class="hero__subtitle-line">Formación integral centrada en la persona,</p>
+          <p class="hero__subtitle-line">en el corazón de Zapopan, Jalisco.</p>
+        </div>
+      </div>
+
+      <!-- Stage 1 — Formación -->
+      <div class="hero__stage" data-stage="1">
+        <span class="eyebrow eyebrow--on-dark">Modelo Educativo</span>
+        <h2 class="hero__title">Formación</h2>
+        <div class="hero__subtitle-group">
+          <p class="hero__subtitle-line">Cuerpo, corazón, inteligencia y voluntad:</p>
+          <p class="hero__subtitle-line">una educación que forma el carácter completo.</p>
+        </div>
+      </div>
+
+      <!-- Stage 2 — Futuro -->
+      <div class="hero__stage" data-stage="2">
+        <span class="eyebrow eyebrow--on-dark">Admisiones Abiertas</span>
+        <h2 class="hero__title">Futuro</h2>
+        <div class="hero__subtitle-group">
+          <p class="hero__subtitle-line">Protagonistas de su propio aprendizaje,</p>
+          <p class="hero__subtitle-line">listos para transformar el mundo.</p>
+        </div>
+        <a href="#contacto" class="btn btn--white btn--lg magnetic hero__stage-cta" id="hero-cta">
+          Agenda una cita <i class="fas fa-arrow-right btn__arrow"></i>
+        </a>
+      </div>
+
+      <!-- Scroll progress -->
+      <div class="hero__scroll-progress">
+        <span class="hero__scroll-progress-text">Desliza</span>
+        <div class="hero__scroll-progress-track">
+          <div class="hero__scroll-progress-fill" id="hero-progress-fill"></div>
+        </div>
+        <span class="hero__scroll-progress-count" id="hero-progress-count">00 / 02</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ── TRUST BAR ── -->
+    <section class="trustbar" aria-label="Cifras de Altamira La Cima">
+      <div class="trustbar__inner glass-panel" data-stagger>
+        <div class="stat-block" data-reveal="up">
+          <span class="stat-block__number counter" data-counter="30" data-counter-suffix="+">0</span>
+          <span class="stat-block__label">Años de experiencia</span>
+        </div>
+        <div class="trustbar__divider"></div>
+        <div class="stat-block" data-reveal="up">
+          <span class="stat-block__number counter" data-counter="1200" data-counter-suffix="+">0</span>
+          <span class="stat-block__label">Alumnos formados</span>
+        </div>
+        <div class="trustbar__divider"></div>
+        <div class="stat-block" data-reveal="up">
+          <span class="stat-block__number counter" data-counter="100" data-counter-suffix="%">0</span>
+          <span class="stat-block__label">Formación integral</span>
+        </div>
+        <div class="trustbar__divider"></div>
+        <div class="stat-block" data-reveal="up">
+          <span class="stat-block__number counter" data-counter="3">0</span>
+          <span class="stat-block__label">Niveles académicos</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE BAND ── -->
+    <div class="marquee-band" aria-hidden="true">
+      <div class="marquee">
+        <div class="marquee__track">
+          <span class="marquee__item">Centrada en la Persona<i class="marquee__dot">&#9670;</i></span>
+          <span class="marquee__item">Formación Integral<i class="marquee__dot">&#9670;</i></span>
+          <span class="marquee__item">Identidad Católica<i class="marquee__dot">&#9670;</i></span>
+          <span class="marquee__item">Educación Diferenciada<i class="marquee__dot">&#9670;</i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABOUT / QUIÉNES SOMOS ── -->
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="about__grid">
+          <div class="about__content" data-reveal="right">
+            <span class="eyebrow">Quiénes Somos</span>
+            <h2 class="section__title">Formando personas<br>de <span class="text-accent">excelencia</span></h2>
+            <p class="about__text">
+              Somos una institución educativa que busca el desarrollo integral de las personas que participan en nuestra comunidad: padres, profesores, alumnos y alumni. Con una visión católica de la vida y buscando en los quehaceres cotidianos el lugar de nuestro crecimiento personal.
+            </p>
+            <p class="about__text">
+              Nuestra institución cuenta con el acompañamiento de la prelatura personal del Opus Dei quien vela por el crecimiento espiritual de nuestra comunidad. Con la centralidad en la persona, nuestro modelo educativo promueve que el alumno sea el protagonista de su propio aprendizaje.
+            </p>
+            <a href="#modelo" class="btn btn--outline" id="about-cta">Conoce nuestro modelo <i class="fas fa-arrow-right btn__arrow"></i></a>
+          </div>
+          <div class="about__image-wrapper" data-reveal="left">
+            <div class="about__image media-frame">
+              <img src="assets/img/about.jpg" alt="Estudiantes de Altamira La Cima en actividad colaborativa" width="600" height="480">
+              <div class="media-frame__scrim"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODELO EDUCATIVO ── -->
+    <section class="section modelo section--dark" id="modelo">
+      <div class="noise-layer"></div>
+      <div class="gradient-mesh"></div>
+      <div class="container">
+        <div class="section__header section__header--center" data-reveal="up">
+          <span class="eyebrow eyebrow--on-dark">Modelo Educativo</span>
+          <h2 class="section__title">Nuestros pilares de formación</h2>
+          <p class="section__subtitle">Al reconocer la grandeza de la persona, ofrecemos oportunidades de crecimiento en todas las dimensiones.</p>
+        </div>
+
+        <div class="modelo__grid" data-stagger>
+          <!-- Card 1 -->
+          <div class="modelo__card spotlight-card" data-reveal="scale">
+            <span class="number-ghost">01</span>
+            <div class="modelo__card-icon"><i class="fas fa-user-graduate"></i></div>
+            <h3 class="modelo__card-title">Centrada en la Persona</h3>
+            <p class="modelo__card-text">Cada alumno es singular, autónomo y protagonista de su vida y de su aprendizaje. Cada persona es una gran novedad por descubrir y formar.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="modelo__card spotlight-card" data-reveal="scale">
+            <span class="number-ghost">02</span>
+            <div class="modelo__card-icon"><i class="fas fa-heart"></i></div>
+            <h3 class="modelo__card-title">Formación Integral</h3>
+            <p class="modelo__card-text">Cuerpo mediante el deporte, corazón para manejar emociones, inteligencia con pensamiento crítico, y voluntad para adquirir virtudes.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="modelo__card spotlight-card" data-reveal="scale">
+            <span class="number-ghost">03</span>
+            <div class="modelo__card-icon"><i class="fas fa-cross"></i></div>
+            <h3 class="modelo__card-title">Identidad Católica</h3>
+            <p class="modelo__card-text">El espíritu se enriquece dentro de la fe católica. Con el acompañamiento del Opus Dei, enseñamos que todos podemos ser santos en nuestras ocupaciones.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="modelo__card spotlight-card" data-reveal="scale">
+            <span class="number-ghost">04</span>
+            <div class="modelo__card-icon"><i class="fas fa-venus-mars"></i></div>
+            <h3 class="modelo__card-title">Educación Diferenciada</h3>
+            <p class="modelo__card-text">Reconocemos las diferencias entre hombres y mujeres, adecuando estrategias pedagógicas para mejores resultados académicos y deportivos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── OFERTA EDUCATIVA ── -->
+    <section class="section oferta" id="oferta">
+      <div class="container">
+        <div class="section__header section__header--center" data-reveal="up">
+          <span class="eyebrow">Oferta Educativa</span>
+          <h2 class="section__title">Niveles académicos</h2>
+          <p class="section__subtitle">Nuestro proyecto educativo de doce años responde a las características propias de cada edad y a los intereses de los alumnos.</p>
+        </div>
+
+        <div class="oferta__grid" data-stagger>
+          <!-- Elementary -->
+          <div class="oferta__card media-frame" data-reveal="scale" id="card-elementary">
+            <img src="assets/img/elementary.jpg" alt="Elementary School - Altamira La Cima" class="oferta__card-image" width="400" height="540">
+            <div class="media-frame__scrim"></div>
+            <span class="oferta__card-number">01</span>
+            <div class="oferta__card-content">
+              <span class="pill-tag">1° – 4° Grado</span>
+              <h3 class="oferta__card-title">Elementary</h3>
+              <p class="oferta__card-desc">
+                Formamos hábitos de laboriosidad, orden y amistad. Basados en aprendizaje cooperativo y proyectos, desarrollamos alumnos lectores con gusto por las matemáticas y las artes.
+              </p>
+              <a href="#contacto" class="oferta__card-link">Conocer más <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Middle School -->
+          <div class="oferta__card media-frame" data-reveal="scale" id="card-middle">
+            <img src="assets/img/middle.jpg" alt="Middle School - Altamira La Cima" class="oferta__card-image" width="400" height="540">
+            <div class="media-frame__scrim"></div>
+            <span class="oferta__card-number">02</span>
+            <div class="oferta__card-content">
+              <span class="pill-tag">5° – 9° Grado</span>
+              <h3 class="oferta__card-title">Middle School</h3>
+              <p class="oferta__card-desc">
+                Etapa de consolidación académica con enfoque en pensamiento crítico, trabajo en equipo y desarrollo de habilidades socioemocionales para la adolescencia.
+              </p>
+              <a href="#contacto" class="oferta__card-link">Conocer más <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- High School -->
+          <div class="oferta__card media-frame" data-reveal="scale" id="card-high">
+            <img src="assets/img/high.jpg" alt="High School - Altamira La Cima" class="oferta__card-image" width="400" height="540">
+            <div class="media-frame__scrim"></div>
+            <span class="oferta__card-number">03</span>
+            <div class="oferta__card-content">
+              <span class="pill-tag">10° – 12° Grado</span>
+              <h3 class="oferta__card-title">High School</h3>
+              <p class="oferta__card-desc">
+                Preparación universitaria con proyectos de alto impacto, orientación vocacional personalizada y formación en liderazgo para jóvenes protagonistas.
+              </p>
+              <a href="#contacto" class="oferta__card-link">Conocer más <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMUNIDAD ── -->
+    <section class="section comunidad" id="comunidad">
+      <div class="container">
+        <div class="section__header" data-reveal="up">
+          <span class="eyebrow">Nuestra Comunidad</span>
+          <h2 class="section__title">Formación que trasciende</h2>
+          <p class="section__subtitle">Cuatro pilares que sostienen nuestra comunidad educativa.</p>
+        </div>
+
+        <div class="comunidad__list">
+          <!-- Padres -->
+          <div class="comunidad__row" data-reveal="up">
+            <span class="comunidad__row-number">01</span>
+            <div class="comunidad__row-icon"><i class="fas fa-home"></i></div>
+            <h3 class="comunidad__row-title">Padres, Primeros Formadores</h3>
+            <p class="comunidad__row-text">La familia es la fuente de toda virtud, lugar de encuentro y escuela de valores por naturaleza. Es en casa donde se adquieren los aprendizajes que habilitan para la vida.</p>
+          </div>
+
+          <!-- Profesores -->
+          <div class="comunidad__row" data-reveal="up">
+            <span class="comunidad__row-number">02</span>
+            <div class="comunidad__row-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <h3 class="comunidad__row-title">Profesores como Mediadores</h3>
+            <p class="comunidad__row-text">El docente es un experto que diseña clases únicas y significativas. Cada profesor tiene un plan de desarrollo personal con programas de coaching y mentoría.</p>
+          </div>
+
+          <!-- Alumnos -->
+          <div class="comunidad__row" data-reveal="up">
+            <span class="comunidad__row-number">03</span>
+            <div class="comunidad__row-icon"><i class="fas fa-star"></i></div>
+            <h3 class="comunidad__row-title">Alumnos como Protagonistas</h3>
+            <p class="comunidad__row-text">El alumno es una persona única e irrepetible. Con preceptores y la familia, elaboramos un plan de desarrollo personal para formar personas libres y felices.</p>
+          </div>
+
+          <!-- Alumni -->
+          <div class="comunidad__row" data-reveal="up">
+            <span class="comunidad__row-number">04</span>
+            <div class="comunidad__row-icon"><i class="fas fa-handshake"></i></div>
+            <h3 class="comunidad__row-title">Alumni Comprometidos</h3>
+            <p class="comunidad__row-text">Son todos aquellos que ya pasaron por nuestro colegio y hoy se comprometen con nuestra labor formativa, siendo generadores de cambio y embajadores institucionales.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── INSTALACIONES ── -->
+    <section class="section instalaciones" id="instalaciones">
+      <div class="container">
+        <div class="section__header" data-reveal="up">
+          <span class="eyebrow">Campus</span>
+          <h2 class="section__title">Nuestras instalaciones</h2>
+          <p class="section__subtitle">Un entorno diseñado para inspirar el aprendizaje y el desarrollo integral.</p>
+        </div>
+
+        <div class="instalaciones__showcase media-frame" data-reveal="scale">
+          <img src="assets/img/instalaciones.jpg" alt="Vista aérea del campus Altamira La Cima" class="ken-burns" width="1200" height="560">
+          <div class="media-frame__scrim"></div>
+          <div class="instalaciones__badge">
+            <span class="stat-block__number">10,000+</span>
+            <span class="stat-block__label">m² de campus</span>
+          </div>
+          <div class="instalaciones__info">
+            <h3>Campus La Cima</h3>
+            <p>Más de 10,000 m² de áreas verdes, canchas deportivas, laboratorios de ciencias y tecnología, y espacios diseñados para cada nivel educativo.</p>
+          </div>
+        </div>
+
+        <div class="instalaciones__features" data-stagger>
+          <div class="instalaciones__feature" data-reveal="up">
+            <span class="instalaciones__feature-icon"><i class="fas fa-futbol"></i></span>
+            <h4 class="instalaciones__feature-title">Canchas Deportivas</h4>
+          </div>
+          <div class="instalaciones__feature" data-reveal="up">
+            <span class="instalaciones__feature-icon"><i class="fas fa-flask"></i></span>
+            <h4 class="instalaciones__feature-title">Laboratorios</h4>
+          </div>
+          <div class="instalaciones__feature" data-reveal="up">
+            <span class="instalaciones__feature-icon"><i class="fas fa-book-open"></i></span>
+            <h4 class="instalaciones__feature-title">Biblioteca</h4>
+          </div>
+          <div class="instalaciones__feature" data-reveal="up">
+            <span class="instalaciones__feature-icon"><i class="fas fa-laptop-code"></i></span>
+            <h4 class="instalaciones__feature-title">Sala de Cómputo</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA BANNER ── -->
+    <section class="cta-banner section--dark">
+      <div class="noise-layer"></div>
+      <div class="gradient-mesh"></div>
+      <div class="container">
+        <span class="eyebrow eyebrow--on-dark">Admisiones Abiertas</span>
+        <h2 class="cta-banner__title">
+          <span class="line-mask"><span class="line-mask__inner">¿Listo para conocer</span></span>
+          <span class="line-mask"><span class="line-mask__inner">el modelo Altamira?</span></span>
+        </h2>
+        <div class="cta-banner__actions">
+          <a href="#contacto" class="btn btn--white btn--lg magnetic">Agenda una cita <i class="fas fa-arrow-right btn__arrow"></i></a>
+          <a href="tel:3338342433" class="btn btn--ghost btn--lg">Llámanos: 33 3834 2433</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACTO ── -->
+    <section class="section contact" id="contacto">
+      <div class="container">
+        <div class="section__header section__header--center" data-reveal="up">
+          <span class="eyebrow">Contacto</span>
+          <h2 class="section__title">Contáctanos</h2>
+          <p class="section__subtitle">Estamos listos para resolver tus dudas y acompañarte en el proceso de admisión.</p>
+        </div>
+
+        <div class="contact__grid">
+          <!-- Info Column -->
+          <div class="contact__info" data-reveal="right">
+            <h3 class="contact__info-title">Información de contacto</h3>
+            <p class="contact__info-text">Agenda una cita para conocer nuestras instalaciones y modelo educativo. ¡Te esperamos!</p>
+
+            <div class="contact__detail">
+              <div class="contact__detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <p class="contact__detail-label">Dirección</p>
+                <p class="contact__detail-value">Av. La Cima 614,<br>La Cima 45134.<br>Zapopan, Jalisco, México</p>
+              </div>
+            </div>
+
+            <div class="contact__detail">
+              <div class="contact__detail-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <p class="contact__detail-label">Correo</p>
+                <p class="contact__detail-value">admisiones@altamira.edu.mx</p>
+              </div>
+            </div>
+
+            <div class="contact__detail">
+              <div class="contact__detail-icon"><i class="fas fa-phone-alt"></i></div>
+              <div>
+                <p class="contact__detail-label">Teléfonos</p>
+                <p class="contact__detail-value">33 3834 2433 / 33 3834 1809<br>33 3834 3981</p>
+              </div>
+            </div>
+
+            <div class="contact__map">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2680.3409545954114!2d-103.4131797217716!3d20.750969861481067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428af7c5028b38b%3A0xfbd18fc1ac06ef92!2sColegio+Altamira+La+Cima!5e0!3m2!1ses-419!2smx!4v1518112287789" title="Ubicación de Colegio Altamira La Cima" loading="lazy" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- Form Column -->
+          <div class="contact__form" data-reveal="left" id="contact-form-wrapper">
+            <h3 class="contact__form-title">Envíanos un mensaje</h3>
+            <form class="contact__form" id="contact-form">
+              <div class="contact__form-row">
+                <div class="contact__form-group">
+                  <label for="contact-name" class="contact__form-label">Nombre</label>
+                  <input type="text" id="contact-name" name="name" class="contact__form-input" required placeholder="Tu nombre completo">
+                </div>
+                <div class="contact__form-group">
+                  <label for="contact-phone" class="contact__form-label">Teléfono</label>
+                  <input type="tel" id="contact-phone" name="phone" class="contact__form-input" required placeholder="33 1234 5678">
+                </div>
+              </div>
+              <div class="contact__form-group">
+                <label for="contact-email" class="contact__form-label">Correo electrónico</label>
+                <input type="email" id="contact-email" name="email" class="contact__form-input" required placeholder="tu@email.com">
+              </div>
+              <div class="contact__form-group">
+                <label for="contact-message" class="contact__form-label">Mensaje</label>
+                <textarea id="contact-message" name="message" class="contact__form-textarea" required placeholder="¿En qué podemos ayudarte?"></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--lg contact__form-submit" id="contact-submit">
+                <i class="fas fa-paper-plane"></i> Enviar mensaje
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       SOCIAL SIDEBAR
+       ═══════════════════════════════════════ -->
+  <aside class="social-sidebar" id="social-sidebar" aria-label="Redes sociales">
+    <a href="https://www.facebook.com/ColegioAltamiraLaCima" target="_blank" class="social-sidebar__link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/colegioaltamiralacima/" target="_blank" class="social-sidebar__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/channel/UC_RV6VjGYYCR2OpDoFXYv8g" target="_blank" class="social-sidebar__link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://twitter.com/altamiralacima" target="_blank" class="social-sidebar__link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+  </aside>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════ -->
+  <footer class="footer" id="footer">
+    <span class="footer__watermark" aria-hidden="true">Altamira</span>
+    <div class="container">
+      <div class="footer__grid">
+        <!-- Brand -->
+        <div>
+          <img src="assets/img/logos/logo_altamira_lacima_blanco.svg" alt="Altamira La Cima" class="footer__brand-logo" width="150" height="50">
+          <p class="footer__brand-text">
+            Av. La Cima 614, La Cima 45134.<br>
+            Zapopan, Jalisco, México.<br><br>
+            <strong>33 3834 2433</strong><br>
+            <strong>33 3834 1809</strong><br>
+            <strong>33 3834 3981</strong>
+          </p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/ColegioAltamiraLaCima" target="_blank" class="footer__social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/colegioaltamiralacima/" target="_blank" class="footer__social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/channel/UC_RV6VjGYYCR2OpDoFXYv8g" target="_blank" class="footer__social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://twitter.com/altamiralacima" target="_blank" class="footer__social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <!-- Sitios de interés -->
+        <div>
+          <h4 class="footer__col-title">Sitios de interés</h4>
+          <div class="footer__links">
+            <a href="https://highsights.mx/" target="_blank" class="footer__link">HighSights</a>
+            <a href="http://www.colmenares.org.mx/" target="_blank" class="footer__link">Colmenares</a>
+            <a href="https://opusdei.org/es-mx/" target="_blank" class="footer__link">Opus Dei</a>
+            <a href="https://sites.google.com/altamira.edu.mx/capellanalacima/inicio" target="_blank" class="footer__link">Capellanía</a>
+          </div>
+        </div>
+
+        <!-- Avisos de privacidad -->
+        <div>
+          <h4 class="footer__col-title">Avisos de Privacidad</h4>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Protección al menor</a>
+            <a href="#" class="footer__link">Acuerdo de servicios educativos</a>
+            <a href="#" class="footer__link">Padres y alumnos</a>
+            <a href="#" class="footer__link">Empleados y candidatos</a>
+            <a href="#" class="footer__link">Proveedores y terceros</a>
+          </div>
+        </div>
+
+        <!-- Protección al menor -->
+        <div>
+          <h4 class="footer__col-title">Protección al Menor</h4>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Política de protección</a>
+            <a href="mailto:proteccionalmenor_lacima@altamira.edu.mx" class="footer__link">Denuncias</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; <span id="current-year">2024</span> Colegio Altamira La Cima. Todos los derechos reservados.</p>
+        <p class="footer__credits">Diseñado con <i class="fas fa-heart" style="color:var(--blue-300);"></i> para Altamira</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       BACK TO TOP
+       ═══════════════════════════════════════ -->
+  <button class="back-to-top" id="back-to-top" aria-label="Volver arriba">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- ═══════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="module" src="js/hero-cosmos.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/scroll-animations.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
