@@ -27,8 +27,8 @@ Es un sitio de varias páginas reales, no una landing con anclas.
 | Ruta | Contenido |
 |---|---|
 | `/` | Hero Three.js + cifras + quiénes somos + pilares + accesos al resto |
-| `/nosotros` | Quiénes somos, valores y los 4 pilares del modelo educativo |
-| `/oferta` | Elementary · Middle School · High School (anclas `#elementary`, `#middle`, `#high`) |
+| `/nosotros` | Quiénes somos, galería con zoom (ZoomParallax), valores y los 4 pilares del modelo educativo |
+| `/oferta` | Hero con galería 3D (AnimatedGallery) + Elementary · Middle School · High School (anclas `#elementary`, `#middle`, `#high`) |
 | `/comunidad` | Padres · Profesores · Alumnos · Alumni (scroll horizontal fijado) |
 | `/instalaciones` | Campus, m² y servicios |
 | `/admisiones` | Proceso en 4 pasos + vías de contacto directo |
@@ -129,10 +129,12 @@ textos reales, esquinas cuadradas y que funcionen a media página.
 
 | Componente | Archivo | Dónde |
 |---|---|---|
-| **ContainerScroll** — panel con bisel que llega inclinado 20° y se aplana | `ContainerScroll.tsx` | Inicio, Oferta |
+| **ContainerScroll** — panel con bisel que llega inclinado 20° y se aplana | `ContainerScroll.tsx` | (disponible, sin uso actual) |
 | **ScrollChoreography** — 4 fotos llegan alrededor de un titular, se juntan en una pila y la de arriba se abre a pantalla completa | `ScrollChoreography.tsx` | Inicio, Instalaciones |
 | **SmoothScrollHero** — imagen que se abre de un marco central con fotos en parallax y lista | `SmoothScrollHero.tsx` | Inicio |
 | **BackgroundPaths** — campo de líneas blancas con título letra por letra | `BackgroundPaths.tsx` | Inicio, Contacto (sección completa) · Nosotros y banda CTA (de fondo) |
+| **AnimatedGallery** — muro de fotos en 3 columnas que se levanta de 75° y titular que entra desenfocado | `AnimatedGallery.tsx` + `sections/OfertaHero.tsx` | Oferta (hero) |
+| **ZoomParallax** — 7 fotos que se agrandan (4× a 9×) hasta que la central llena la pantalla | `ZoomParallax.tsx` | Nosotros |
 
 Adaptaciones concretas respecto al original:
 - `SmoothScrollHero` medía `window.scrollY` crudo, o sea, asumía ser lo primero
@@ -159,11 +161,11 @@ Adaptaciones concretas respecto al original:
 | Marco que se despliega a pantalla completa | `ClipRevealBand` | Oferta |
 | Paneles que se expanden al pasar el cursor | `ExpandingPanels` | Inicio |
 | Tarjetas que se apilan al hacer scroll | `StackingCards` | Inicio |
-| Foto fija que cambia de imagen según el texto | `StickySwapGallery` | Nosotros |
+| Foto fija que cambia (con barrido) según el bloque de texto que cruza el centro | `StickySwapGallery` | Nosotros |
 | Frase que se ilumina palabra por palabra | `ScrollTextHighlight` | Nosotros, Comunidad |
 | Apertura circular de imagen | `CircularReveal` | Comunidad, Admisiones |
 | Scroll horizontal fijado | `Community` | Comunidad |
-| Galería con fotos a distinta velocidad | `ParallaxColumn` | Instalaciones |
+| Galería en dos columnas que derivan en sentidos opuestos | `ParallaxColumn` | Instalaciones |
 | Línea de tiempo que se dibuja con el scroll | `ScrollTimeline` | Admisiones |
 | Parallax de salida de la cabecera | `PageHeader` | las 6 páginas internas |
 | Marquee ligado a la velocidad del scroll | `Marquee` | Inicio, Nosotros, Comunidad |
@@ -234,4 +236,6 @@ Todo esto está marcado con `// TODO` en el código:
 4. **`components/sections/Contact.tsx`**: el formulario valida y muestra el
    estado de éxito, pero **no envía nada**. Falta conectarlo a un endpoint.
 5. **Imágenes**: las fotos de secciones vienen del sitio anterior. Confirmar
-   que son reales del colegio y con derechos.
+   que son reales del colegio y con derechos. `public/img/galeria/` añade 4
+   fotos que estaban sin usar en `legacy/imagenes/`; otras 2 de esa carpeta
+   no se usaron porque son publicaciones de Instagram con texto y marcos.

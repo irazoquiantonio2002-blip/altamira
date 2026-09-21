@@ -1,41 +1,27 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll } from "motion/react";
 import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
 import { useScrollValue } from "@/lib/useScrollValue";
 
-export type ParallaxShot = {
-  src: string;
-  alt: string;
-  /** Travel in px across the crossing. Opposite signs read as depth. */
-  start: number;
-  end: number;
-  /** Tailwind width + alignment for this shot. */
-  className: string;
-};
+type Img = { src: string; alt: string };
 
 /**
- * A loose editorial column where each photograph drifts at its own speed.
+ * A two-column photo gallery where the columns drift in opposite directions
+ * as the section crosses the screen.
  *
- * Alternating the sign of `start`/`end` between neighbours is what produces
- * the depth: photos moving the same way at different speeds just look like
- * lag. On phones the whole range is halved, because the full travel there is
- * large relative to the viewport and reads as drift.
+ * This replaces a loose collage in which every photo moved on its own offset
+ * (up to 260px) with only 40px between them: neighbouring photos slid into
+ * each other and left large empty bands — it read as a broken layout. Here
+ * the photos in a column move together, so they can never overlap one
+ * another, and the columns sit side by side, so they can't either. The
+ * opposite drift is what reads as depth.
+ *
+ * On phones it is a single static column.
  */
-export function ParallaxColumn({ shots }: { shots: ParallaxShot[] }) {
-  return (
-    <div className="container-x">
-      <div className="mx-auto max-w-5xl">
-        {shots.map((shot) => (
-          <Shot key={shot.src + shot.start} shot={shot} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Shot({ shot }: { shot: ParallaxShot }) {
+export function ParallaxColumn({ images }: { images: Img[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
@@ -45,28 +31,47 @@ function Shot({ shot }: { shot: ParallaxShot }) {
     offset: ["start end", "end start"],
   });
 
-  const factor = reduced ? 0 : isMobile ? 0.5 : 1;
-  const y = useScrollValue(
-    scrollYProgress,
-    [0, 1],
-    [shot.start * factor, shot.end * factor],
-  );
-  const scale = useScrollValue(scrollYProgress, [0.8, 1], [1, 0.94]);
-  const opacity = useScrollValue(scrollYProgress, [0.82, 1], [1, 0.35]);
+  const travel = reduced || isMobile ? 0 : 70;
+  const yLeft = useScrollValue(scrollYProgress, [0, 1], [travel, -travel]);
+  const yRight = useScrollValue(scrollYProgress, [0, 1], [-travel, travel]);
+
+  const left = images.filter((_, i) => i % 2 === 0);
+  const right = images.filter((_, i) => i % 2 === 1);
+  // Alternating frame shapes keep the two columns from reading as a grid.
+  const shape = (i: number, col: 0 | 1) =>
+    (i + col) % 2 === 0 ? "aspect-4/5" : "aspect-3/2";
 
   return (
-    <div ref={ref} className={`my-10 ${shot.className}`}>
-      <motion.div
-        style={reduced ? undefined : { y, scale, opacity }}
-        className="will-change-transform"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={shot.src}
-          alt={shot.alt}
-          className="w-full object-cover saturate-[.8]"
-        />
-      </motion.div>
+    <div ref={ref} className="container-x">
+      <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 md:gap-10">
+        <motion.div style={{ y: yLeft }} className="flex flex-col gap-6 md:gap-10">
+          {left.map((img, i) => (
+            <Photo key={img.src} img={img} className={shape(i, 0)} />
+          ))}
+        </motion.div>
+        <motion.div
+          style={{ y: yRight }}
+          className="flex flex-col gap-6 md:mt-28 md:gap-10"
+        >
+          {right.map((img, i) => (
+            <Photo key={img.src} img={img} className={shape(i, 1)} />
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function Photo({ img, className }: { img: Img; className: string }) {
+  return (
+    <div className={`relative w-full overflow-hidden bg-paper-100 ${className}`}>
+      <Image
+        src={img.src}
+        alt={img.alt}
+        fill
+        sizes="(max-width: 768px) 100vw, 40vw"
+        className="object-cover saturate-[.8]"
+      />
     </div>
   );
 }

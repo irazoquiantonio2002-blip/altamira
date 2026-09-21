@@ -58,7 +58,7 @@ export default function InstalacionesPage() {
 
       <Facilities withHead={false} />
 
-      {/* A looser, quieter gallery after the dense showcase. */}
+      {/* Two-column gallery, columns drifting in opposite directions. */}
       <section className="section-y bg-paper-50">
         <div className="container-x">
           <Reveal direction="up">
@@ -72,35 +72,13 @@ export default function InstalacionesPage() {
 
         <div className="mt-12">
           <ParallaxColumn
-            shots={[
-              {
-                src: "/img/hero/formacion-ajedrez.jpg",
-                alt: "Alumnos en actividad de concentración",
-                start: -180,
-                end: 180,
-                className: "w-1/2 sm:w-1/3",
-              },
-              {
-                src: "/img/hero/altamira-comunidad.jpg",
-                alt: "Comunidad de Colegio Altamira La Cima",
-                start: 180,
-                end: -220,
-                className: "mx-auto w-3/4 sm:w-2/3",
-              },
-              {
-                src: "/img/high.jpg",
-                alt: "Alumnos de High School en el campus",
-                start: -160,
-                end: 200,
-                className: "ml-auto w-1/2 sm:w-1/3",
-              },
-              {
-                src: "/img/about.jpg",
-                alt: "Alumnos trabajando en equipo",
-                start: 0,
-                end: -260,
-                className: "w-2/3 sm:ml-24 sm:w-5/12",
-              },
+            images={[
+              { src: "/img/hero/formacion-ajedrez.jpg", alt: "Alumnos en actividad de concentración" },
+              { src: "/img/hero/altamira-comunidad.jpg", alt: "Comunidad de Colegio Altamira La Cima" },
+              { src: "/img/galeria/exposicion-arte.jpg", alt: "Exposición de trabajos de arte de los alumnos" },
+              { src: "/img/high.jpg", alt: "Alumnos de High School en el campus" },
+              { src: "/img/about.jpg", alt: "Alumnos trabajando en equipo" },
+              { src: "/img/galeria/proyecto-maqueta.jpg", alt: "Alumnos presentando un proyecto de maqueta" },
             ]}
           />
         </div>
