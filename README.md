@@ -28,8 +28,8 @@ Es un sitio de varias páginas reales, no una landing con anclas.
 |---|---|
 | `/` | Hero Three.js + cifras + quiénes somos + pilares + accesos al resto |
 | `/nosotros` | Quiénes somos, galería con zoom (ZoomParallax), valores y los 4 pilares del modelo educativo |
-| `/oferta` | Hero con galería 3D (AnimatedGallery) + Elementary · Middle School · High School (anclas `#elementary`, `#middle`, `#high`) |
-| `/comunidad` | Padres · Profesores · Alumnos · Alumni (scroll horizontal fijado) |
+| `/oferta` | Elementary · Middle School · High School (anclas `#elementary`, `#middle`, `#high`) |
+| `/comunidad` | Hero con galería 3D (AnimatedGallery) + Padres · Profesores · Alumnos · Alumni (scroll horizontal fijado) |
 | `/instalaciones` | Campus, m² y servicios |
 | `/admisiones` | Proceso en 4 pasos + vías de contacto directo |
 | `/contacto` | Datos, mapa y formulario |
@@ -133,7 +133,7 @@ textos reales, esquinas cuadradas y que funcionen a media página.
 | **ScrollChoreography** — 4 fotos llegan alrededor de un titular, se juntan en una pila y la de arriba se abre a pantalla completa | `ScrollChoreography.tsx` | Inicio, Instalaciones |
 | **SmoothScrollHero** — imagen que se abre de un marco central con fotos en parallax y lista | `SmoothScrollHero.tsx` | Inicio |
 | **BackgroundPaths** — campo de líneas blancas con título letra por letra | `BackgroundPaths.tsx` | Inicio, Contacto (sección completa) · Nosotros y banda CTA (de fondo) |
-| **AnimatedGallery** — muro de fotos en 3 columnas que se levanta de 75° y titular que entra desenfocado | `AnimatedGallery.tsx` + `sections/OfertaHero.tsx` | Oferta (hero) |
+| **AnimatedGallery** — muro de fotos en 3 columnas que se levanta de 75° y titular que entra desenfocado; velo y acentos en navy | `AnimatedGallery.tsx` + `sections/GalleryHero.tsx` | Comunidad (hero) |
 | **ZoomParallax** — 7 fotos que se agrandan (4× a 9×) hasta que la central llena la pantalla | `ZoomParallax.tsx` | Nosotros |
 
 Adaptaciones concretas respecto al original:
@@ -163,7 +163,7 @@ Adaptaciones concretas respecto al original:
 | Tarjetas que se apilan al hacer scroll | `StackingCards` | Inicio |
 | Foto fija que cambia (con barrido) según el bloque de texto que cruza el centro | `StickySwapGallery` | Nosotros |
 | Frase que se ilumina palabra por palabra | `ScrollTextHighlight` | Nosotros, Comunidad |
-| Apertura circular de imagen | `CircularReveal` | Comunidad, Admisiones |
+| Apertura circular de imagen | `CircularReveal` | Admisiones |
 | Scroll horizontal fijado | `Community` | Comunidad |
 | Galería en dos columnas que derivan en sentidos opuestos | `ParallaxColumn` | Instalaciones |
 | Línea de tiempo que se dibuja con el scroll | `ScrollTimeline` | Admisiones |

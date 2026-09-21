@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { OfertaHero } from "@/components/sections/OfertaHero";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Programs } from "@/components/sections/Programs";
 import { AdmissionsCTA } from "@/components/sections/AdmissionsCTA";
 import { ClipRevealBand } from "@/components/ui/scroll/ClipRevealBand";
+import { pageHeaders } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Oferta Educativa",
@@ -11,14 +12,13 @@ export const metadata: Metadata = {
 };
 
 /**
- * Signature scroll moves on this page: the AnimatedGallery hero (a wall of
- * photos that stands up from 75° as you scroll), and the full-bleed frame
- * that unfolds between the levels and the CTA.
+ * Signature scroll move on this page: the full-bleed frame that unfolds
+ * between the levels and the CTA.
  */
 export default function OfertaPage() {
   return (
     <>
-      <OfertaHero />
+      <PageHeader data={pageHeaders.oferta} breadcrumb="Oferta Educativa" />
 
       <Programs withHead={false} />
 
