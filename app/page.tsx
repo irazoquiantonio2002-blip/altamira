@@ -78,8 +78,13 @@ export default function Home() {
         </p>
       </ClipRevealBand>
 
-      {/* ② ScrollChoreography — four photos swap, stack, and one opens out. */}
+      {/* ② ScrollChoreography — four photos arrive around a headline, gather
+          into a pile, and the top one opens out. */}
       <ScrollChoreography
+        heading={{
+          label: "Centrada en la Persona",
+          title: "Cada persona es una gran novedad por descubrir y formar.",
+        }}
         images={{
           topLeft: { src: "/img/high.jpg", alt: "Alumnos de High School" },
           topRight: {

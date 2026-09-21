@@ -130,7 +130,7 @@ textos reales, esquinas cuadradas y que funcionen a media página.
 | Componente | Archivo | Dónde |
 |---|---|---|
 | **ContainerScroll** — panel con bisel que llega inclinado 20° y se aplana | `ContainerScroll.tsx` | Inicio, Oferta |
-| **ScrollChoreography** — 4 fotos se cruzan, se apilan y una se abre a pantalla completa | `ScrollChoreography.tsx` | Inicio, Instalaciones |
+| **ScrollChoreography** — 4 fotos llegan alrededor de un titular, se juntan en una pila y la de arriba se abre a pantalla completa | `ScrollChoreography.tsx` | Inicio, Instalaciones |
 | **SmoothScrollHero** — imagen que se abre de un marco central con fotos en parallax y lista | `SmoothScrollHero.tsx` | Inicio |
 | **BackgroundPaths** — campo de líneas blancas con título letra por letra | `BackgroundPaths.tsx` | Inicio, Contacto (sección completa) · Nosotros y banda CTA (de fondo) |
 
@@ -141,6 +141,12 @@ Adaptaciones concretas respecto al original:
   `background-size`, que en un móvil vertical dejaba la foto como una franja.
 - `BackgroundPathsSection` anima el título al entrar en pantalla, no al montar:
   a media página la animación de montaje terminaba antes de que nadie llegara.
+- `ScrollChoreography` es el único que se **rediseñó** a petición del cliente:
+  la apertura original (4 franjas iguales de 36vw × 24vh en rejilla 2×2 con
+  sombras pesadas) parecía ventanas de escritorio y cortaba las caras. Ahora:
+  fotos verticales de tamaños distintos alrededor de un titular, que entran
+  una a una desde abajo mientras la sección sube; luego se juntan en una pila
+  con leves giros y la de arriba se abre. Conserva el resorte del original.
 - `BackgroundPaths` va en **blanco y más denso** (44–48 líneas por dirección en
   vez de 36), sólo sobre fondos oscuros, y con `clear` las líneas se apartan de
   debajo del texto para que se lea.

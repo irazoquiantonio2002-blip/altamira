@@ -24,6 +24,10 @@ export default function InstalacionesPage() {
       <PageHeader data={pageHeaders.instalaciones} breadcrumb="Instalaciones" />
 
       <ScrollChoreography
+        heading={{
+          label: facilities.label,
+          title: facilities.subtitle,
+        }}
         images={{
           topLeft: {
             src: "/img/elementary.jpg",
