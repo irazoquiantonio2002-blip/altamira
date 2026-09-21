@@ -23,7 +23,11 @@ export const site = {
     "high school",
     "admisiones Jalisco",
   ],
+  /** White mark — for dark surfaces (the hero, the footer). */
   logo: "/img/logos/logo_altamira_lacima_blanco.svg",
+  /** Navy mark — same file with the two `fill:white` classes recolored to
+      the brand navy, for the light navbar. */
+  logoDark: "/img/logos/logo_altamira_lacima_navy.svg",
 } as const;
 
 export const contact = {
@@ -92,37 +96,134 @@ export type NavItem = {
   children?: ReadonlyArray<NavItem>;
 };
 
+/**
+ * Primary navigation. Every entry is a real page — this is a multi-page
+ * site, not a single landing with anchor links.
+ */
 export const navigation: ReadonlyArray<NavItem> = [
+  { label: "Nosotros", href: "/nosotros" },
   {
     label: "Oferta Educativa",
-    href: "#oferta",
+    href: "/oferta",
     children: [
-      { label: "Conócenos", href: "#nosotros" },
-      { label: "Elementary", href: "#oferta" },
-      { label: "Middle School", href: "#oferta" },
-      { label: "High School", href: "#oferta" },
-      { label: "Instalaciones", href: "#instalaciones" },
+      { label: "Elementary · 1° a 4°", href: "/oferta#elementary" },
+      { label: "Middle School · 5° a 9°", href: "/oferta#middle" },
+      { label: "High School · 10° a 12°", href: "/oferta#high" },
     ],
   },
+  { label: "Comunidad", href: "/comunidad" },
+  { label: "Instalaciones", href: "/instalaciones" },
   {
-    label: "Portal Padres",
-    href: "#",
+    label: "Portales",
+    href: "/contacto",
     children: [
       { label: "Servoescolar", href: portals.servoescolar, external: true },
       { label: "SIE", href: portals.sie, external: true },
-    ],
-  },
-  { label: "Algebraix", href: portals.algebraix, external: true },
-  {
-    label: "Servicios",
-    href: "#",
-    children: [
+      { label: "Algebraix", href: portals.algebraix, external: true },
       { label: "High Sights", href: portals.highsights, external: true },
       { label: "Calendario", href: portals.calendar, external: true },
     ],
   },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Contacto", href: "/contacto" },
 ];
+
+/**
+ * The short dark band that opens every inner page: section label, title,
+ * standfirst and the photo behind it.
+ */
+export type PageHeader = {
+  label: string;
+  title: string;
+  lead: string;
+  image: { src: string; alt: string };
+};
+
+export const pageHeaders: Record<string, PageHeader> = {
+  nosotros: {
+    label: "Quiénes Somos",
+    title: "Formando personas de excelencia",
+    lead: "Una institución centrada en la persona, con visión católica de la vida y el acompañamiento del Opus Dei.",
+    image: {
+      src: "/img/about.jpg",
+      alt: "Estudiantes de Altamira La Cima en actividad colaborativa",
+    },
+  },
+  oferta: {
+    label: "Oferta Educativa",
+    title: "Niveles académicos",
+    lead: "Un proyecto educativo de doce años que responde a las características propias de cada edad.",
+    image: {
+      src: "/img/middle.jpg",
+      alt: "Alumnos de Altamira La Cima en clase",
+    },
+  },
+  comunidad: {
+    label: "Nuestra Comunidad",
+    title: "Formación que trasciende",
+    lead: "Cuatro pilares que sostienen nuestra comunidad educativa: padres, profesores, alumnos y alumni.",
+    image: {
+      src: "/img/hero/altamira-comunidad.jpg",
+      alt: "Comunidad de Colegio Altamira La Cima",
+    },
+  },
+  instalaciones: {
+    label: "Campus",
+    title: "Nuestras instalaciones",
+    lead: "Más de 10,000 m² diseñados para inspirar el aprendizaje y el desarrollo integral.",
+    image: {
+      src: "/img/instalaciones.jpg",
+      alt: "Vista aérea del campus de Colegio Altamira La Cima",
+    },
+  },
+  admisiones: {
+    label: "Admisiones Abiertas",
+    title: "Únete a Altamira La Cima",
+    lead: "Agenda una cita para conocer nuestras instalaciones y nuestro modelo educativo.",
+    image: {
+      src: "/img/high.jpg",
+      alt: "Alumnos de High School en Colegio Altamira La Cima",
+    },
+  },
+  contacto: {
+    label: "Contacto",
+    title: "Contáctanos",
+    lead: "Estamos listos para resolver tus dudas y acompañarte en el proceso de admisión.",
+    image: {
+      src: "/img/elementary.jpg",
+      alt: "Alumnos de Elementary en Colegio Altamira La Cima",
+    },
+  },
+};
+
+/**
+ * Admissions steps.
+ *
+ * TODO: confirmar el proceso real de admisión con el colegio. Los cuatro
+ * pasos de abajo describen un proceso estándar y NO están validados por la
+ * institución — revisar antes de publicar.
+ */
+export const admissionSteps = [
+  {
+    index: "01",
+    title: "Agenda tu cita",
+    text: "Escríbenos o llámanos para programar una visita guiada por el campus y conocer el modelo educativo.",
+  },
+  {
+    index: "02",
+    title: "Visita el campus",
+    text: "Recorre las instalaciones y resuelve tus dudas con el equipo de admisiones y la dirección del nivel.",
+  },
+  {
+    index: "03",
+    title: "Entrega de documentos",
+    text: "Reúne la documentación académica del alumno y completa la solicitud de ingreso.",
+  },
+  {
+    index: "04",
+    title: "Bienvenida",
+    text: "Confirmamos el lugar e iniciamos el acompañamiento con el preceptor asignado a la familia.",
+  },
+] as const;
 
 /**
  * Trust-bar figures.

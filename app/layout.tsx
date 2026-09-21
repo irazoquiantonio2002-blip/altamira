@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { site, contact, socials } from "@/lib/site-data";
 
 /**
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0e14",
+  themeColor: "#192e5e",
   width: "device-width",
   initialScale: 1,
   // Never block pinch-zoom (§9).
@@ -82,7 +84,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es-MX" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="bg-ink-950 antialiased">
+      <body className="bg-paper antialiased">
         <script
           type="application/ld+json"
           // Static object built at module scope — no user input reaches it.
@@ -90,12 +92,14 @@ export default function RootLayout({
         />
         <a
           href="#contenido"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-pill focus:bg-accent-500 focus:px-5 focus:py-3 focus:text-sm focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-navy-700 focus:px-5 focus:py-3 focus:text-sm focus:text-white"
         >
           Saltar al contenido
         </a>
         <SmoothScroll />
-        {children}
+        <Navbar />
+        <main id="contenido">{children}</main>
+        <Footer />
       </body>
     </html>
   );

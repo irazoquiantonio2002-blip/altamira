@@ -15,8 +15,14 @@ type TextRevealProps = {
   lines: ReadonlyArray<string>;
   as?: ElementType;
   className?: string;
-  /** Per-line class, e.g. to italicise the accent line. */
+  /** Per-line class applied to every line. */
   lineClassName?: string;
+  /**
+   * Class applied to the LAST line only — the accent half of a two-part
+   * headline. A `last:` Tailwind variant cannot do this: each line sits
+   * alone inside its own clip mask, so every line is also a last child.
+   */
+  lastLineClassName?: string;
   /** Animate word-by-word inside each line instead of line-by-line. */
   byWord?: boolean;
   /** Set when a section labels itself by this heading. */
@@ -38,17 +44,20 @@ export function TextReveal({
   as = "h2",
   className,
   lineClassName,
+  lastLineClassName,
   byWord = false,
   id,
 }: TextRevealProps) {
+  const lineClass = (i: number) =>
+    `${lineClassName ?? ""} ${i === lines.length - 1 ? (lastLineClassName ?? "") : ""}`;
   const reduced = useReducedMotion();
   const Tag = as;
 
   if (reduced) {
     return (
       <Tag id={id} className={className}>
-        {lines.map((line) => (
-          <span key={line} className={`block ${lineClassName ?? ""}`}>
+        {lines.map((line, i) => (
+          <span key={line} className={`block ${lineClass(i)}`}>
             {line}
           </span>
         ))}
@@ -67,7 +76,7 @@ export function TextReveal({
       whileInView="visible"
       viewport={inViewOnce}
     >
-      {lines.map((line) => (
+      {lines.map((line, lineIndex) => (
         <span
           key={line}
           // `pb-[0.12em]` + matching negative margin gives descenders room
@@ -75,7 +84,7 @@ export function TextReveal({
           className="block overflow-hidden pb-[0.12em] mb-[-0.12em]"
         >
           {byWord ? (
-            <span className={`block ${lineClassName ?? ""}`}>
+            <span className={`block ${lineClass(lineIndex)}`}>
               {line.split(" ").map((word, i) => (
                 <span
                   key={`${word}-${i}`}
@@ -96,7 +105,7 @@ export function TextReveal({
           ) : (
             <motion.span
               data-reveal
-              className={`block ${lineClassName ?? ""}`}
+              className={`block ${lineClass(lineIndex)}`}
               variants={lineMaskChild}
             >
               {line}

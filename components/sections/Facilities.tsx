@@ -1,93 +1,74 @@
 import { facilities } from "@/lib/site-data";
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import { TextReveal } from "@/components/ui/TextReveal";
+import { SectionHead } from "@/components/ui/SectionLabel";
 import { Reveal, RevealItem, Stagger } from "@/components/ui/Reveal";
 import { ImageReveal } from "@/components/ui/ImageReveal";
 import { FacilityIconGlyph } from "@/components/ui/Icons";
 
-/** Instalaciones / Campus (§6.9) — wide aerial showcase with parallax + chips. */
-export function Facilities() {
+/** Campus: a wide aerial with parallax, the m² figure, and the feature rules. */
+export function Facilities({ withHead = true }: { withHead?: boolean }) {
   return (
-    <section
-      id="instalaciones"
-      className="relative bg-ink-950 py-24 sm:py-32 lg:py-40"
-    >
+    <section id="instalaciones" className="section-y bg-paper">
       <div className="container-x">
-        <div className="max-w-2xl">
+        {withHead ? (
           <Reveal direction="up">
-            <SectionLabel className="mb-7">{facilities.label}</SectionLabel>
+            <SectionHead
+              label={facilities.label}
+              title={facilities.title}
+              lead={facilities.subtitle}
+            />
           </Reveal>
+        ) : null}
 
-          <TextReveal
-            as="h2"
-            lines={[facilities.title]}
-            byWord
-            className="font-display text-[length:var(--text-4xl)] text-paper"
-          />
-
-          <Reveal direction="up" delay={0.15}>
-            <p className="mt-6 text-mist">{facilities.subtitle}</p>
-          </Reveal>
-        </div>
-
-        <div className="relative mt-14 sm:mt-20">
+        <div className={withHead ? "mt-14" : ""}>
           <ImageReveal
             src={facilities.showcase.image.src}
             alt={facilities.showcase.image.alt}
-            width={1600}
+            width={1800}
             height={900}
-            sizes="(max-width: 1440px) 100vw, 1440px"
-            parallax={48}
-            className="aspect-4/5 w-full rounded-card sm:aspect-16/9"
+            sizes="(max-width: 1360px) 100vw, 1360px"
+            parallax={44}
+            className="aspect-4/5 w-full sm:aspect-2/1"
           />
-
-          {/* Backing for the overlaid copy — an aerial shot is bright enough
-              that the shared scrim alone leaves the body text below AA. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-3/4 rounded-b-card bg-gradient-to-t from-ink-950 via-ink-950/85 to-transparent"
-          />
-
-          {/* Overlaid copy. Stacked below the badge on phones so the two never
-              collide inside a narrow frame. */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-6 p-6 sm:p-10 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-xl">
-              <h3 className="font-display text-[length:var(--text-2xl)] text-paper">
-                {facilities.showcase.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist sm:text-base">
-                {facilities.showcase.text}
-              </p>
-            </div>
-
-            <div className="shrink-0 rounded-card border border-hairline-strong bg-ink-950/70 px-6 py-4 backdrop-blur-md">
-              <span className="block font-display text-[length:var(--text-3xl)] leading-none text-paper">
-                {facilities.badge.value}
-              </span>
-              <span className="mt-1 block text-[length:var(--text-label)] uppercase tracking-[0.18em] text-mist-dim">
-                {facilities.badge.label}
-              </span>
-            </div>
-          </div>
         </div>
 
-        {/* Single column until `sm`: at 320px a two-up split leaves ~36px for
-            the label, which is not enough for "Sala de Cómputo" even wrapped. */}
+        {/* The figure sits in the grid beside the copy rather than floating
+            on the photo — nothing overlaps, so nothing needs a scrim. */}
+        <div className="grid border-b border-t border-rule lg:grid-cols-[auto_1fr]">
+          <Reveal direction="up" className="border-rule p-8 lg:border-r lg:p-10">
+            <span className="block font-display text-[length:var(--text-4xl)] leading-none text-navy-700">
+              {facilities.badge.value}
+            </span>
+            <span className="mt-2 block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
+              {facilities.badge.label}
+            </span>
+          </Reveal>
+
+          <Reveal direction="up" className="p-8 lg:p-10">
+            <h3 className="font-display text-[length:var(--text-2xl)]">
+              {facilities.showcase.title}
+            </h3>
+            <p className="mt-4 max-w-2xl text-slate">
+              {facilities.showcase.text}
+            </p>
+          </Reveal>
+        </div>
+
         <Stagger
-          className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid border-b border-l border-rule sm:grid-cols-2 lg:grid-cols-4"
           gap={0.08}
         >
           {facilities.features.map((feature) => (
             <RevealItem
               key={feature.title}
-              className="flex items-center gap-4 rounded-card border border-hairline bg-ink-900 px-5 py-5 transition-colors duration-500 hover:border-hairline-strong"
+              className="flex items-center gap-4 border-r border-rule px-6 py-7 transition-colors duration-500 hover:bg-paper-50"
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-hairline text-accent-400">
-                <FacilityIconGlyph name={feature.icon} className="size-5" />
-              </span>
-              {/* `min-w-0` lets the label wrap instead of forcing the flex
-                  row wider than its grid cell. */}
-              <h4 className="min-w-0 font-sans text-sm font-medium text-paper">
+              <FacilityIconGlyph
+                name={feature.icon}
+                className="size-5 shrink-0 text-accent-600"
+              />
+              {/* `min-w-0` lets the label wrap instead of forcing the row
+                  wider than its grid cell. */}
+              <h4 className="min-w-0 font-sans text-sm font-semibold text-navy-700">
                 {feature.title}
               </h4>
             </RevealItem>

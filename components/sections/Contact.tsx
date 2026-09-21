@@ -1,23 +1,19 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { AnimatePresence, motion } from "motion/react";
 import { contact, contactSection } from "@/lib/site-data";
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import { TextReveal } from "@/components/ui/TextReveal";
 import { Reveal } from "@/components/ui/Reveal";
 import { SubmitButton } from "@/components/ui/Button";
-import { Mail, MapPin, Phone } from "@/components/ui/Icons";
-import { EASE_OUT_EXPO } from "@/lib/animations";
+import { Mail, MapPin, Phone, WhatsApp } from "@/components/ui/Icons";
 
 type Errors = Partial<Record<"name" | "phone" | "email" | "message", string>>;
 type Status = "idle" | "sending" | "sent";
 
 const fieldBase =
-  "w-full rounded-lg border bg-ink-900 px-4 py-3.5 text-paper placeholder:text-mist-dim/60 " +
-  "transition-colors duration-300 focus:outline-none focus-visible:outline-none";
+  "w-full border bg-paper px-4 py-3.5 text-navy-700 placeholder:text-slate/55 " +
+  "transition-colors duration-300 focus:outline-none";
 
-/** Contacto (§6.11) — info column with map, plus a validated form. */
+/** Contacto — details column with the map, plus a validated form. */
 export function Contact() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -44,8 +40,7 @@ export function Contact() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = new FormData(form);
-    const found = validate(data);
+    const found = validate(new FormData(form));
     setErrors(found);
     if (Object.keys(found).length) return;
 
@@ -63,101 +58,78 @@ export function Contact() {
   const fieldClass = (key: keyof Errors) =>
     `${fieldBase} ${
       errors[key]
-        ? "border-red-400/60 focus:border-red-400"
-        : "border-hairline focus:border-accent-500"
+        ? "border-red-600 focus:border-red-700"
+        : "border-rule-strong focus:border-accent-600"
     }`;
 
   return (
-    <section id="contacto" className="relative bg-ink-950 py-24 sm:py-32 lg:py-40">
+    <section id="contacto" className="section-y bg-paper">
       <div className="container-x">
-        <div className="mx-auto max-w-2xl text-center">
-          <Reveal direction="up">
-            <SectionLabel className="mb-7">{contactSection.label}</SectionLabel>
-          </Reveal>
-
-          <TextReveal
-            as="h2"
-            lines={[contactSection.title]}
-            byWord
-            className="font-display text-[length:var(--text-4xl)] text-paper"
-          />
-
-          <Reveal direction="up" delay={0.15}>
-            <p className="mt-6 text-mist">{contactSection.subtitle}</p>
-          </Reveal>
-        </div>
-
-        <div className="mt-16 grid gap-10 sm:mt-20 lg:grid-cols-2 lg:gap-14">
-          {/* ── Info ───────────────────────────────────────────────── */}
-          <Reveal direction="right" tall>
-            <h3 className="font-display text-[length:var(--text-2xl)] text-paper">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* ── Details ────────────────────────────────────────────── */}
+          <Reveal direction="up" tall>
+            <h2 className="font-display text-[length:var(--text-2xl)]">
               {contactSection.infoTitle}
-            </h3>
-            <p className="mt-4 max-w-prose text-mist">
+            </h2>
+            <p className="mt-4 max-w-prose text-slate">
               {contactSection.infoText}
             </p>
 
-            <dl className="mt-10 space-y-8">
-              <div className="flex gap-5">
+            <dl className="mt-10 border-t border-rule">
+              <div className="flex gap-5 border-b border-rule py-6">
                 <dt className="sr-only">Dirección</dt>
-                <span
+                <MapPin
+                  className="mt-0.5 size-5 shrink-0 text-accent-600"
                   aria-hidden="true"
-                  className="grid size-11 shrink-0 place-items-center rounded-full border border-hairline text-accent-400"
-                >
-                  <MapPin />
-                </span>
+                />
                 <dd>
-                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.18em] text-mist-dim">
+                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
                     Dirección
                   </span>
-                  <address className="mt-1 not-italic text-paper">
-                    {contact.address.street},<br />
-                    {contact.address.neighborhood}.<br />
+                  <address className="mt-2 not-italic text-navy-700">
+                    {contact.address.street}, {contact.address.neighborhood}.
+                    <br />
                     {contact.address.city}, {contact.address.region},{" "}
                     {contact.address.country}
                   </address>
                 </dd>
               </div>
 
-              <div className="flex gap-5">
+              <div className="flex gap-5 border-b border-rule py-6">
                 <dt className="sr-only">Correo</dt>
-                <span
+                <Mail
+                  className="mt-0.5 size-5 shrink-0 text-accent-600"
                   aria-hidden="true"
-                  className="grid size-11 shrink-0 place-items-center rounded-full border border-hairline text-accent-400"
-                >
-                  <Mail />
-                </span>
+                />
                 <dd>
-                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.18em] text-mist-dim">
+                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
                     Correo
                   </span>
                   <a
                     href={`mailto:${contact.email}`}
-                    className="mt-1 inline-block text-paper underline-offset-4 hover:underline"
+                    className="mt-2 inline-block text-navy-700 underline-offset-4 hover:underline"
                   >
                     {contact.email}
                   </a>
                 </dd>
               </div>
 
-              <div className="flex gap-5">
+              <div className="flex gap-5 border-b border-rule py-6">
                 <dt className="sr-only">Teléfonos</dt>
-                <span
+                <Phone
+                  className="mt-0.5 size-5 shrink-0 text-accent-600"
                   aria-hidden="true"
-                  className="grid size-11 shrink-0 place-items-center rounded-full border border-hairline text-accent-400"
-                >
-                  <Phone />
-                </span>
+                />
                 <dd>
-                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.18em] text-mist-dim">
+                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
                     Teléfonos
                   </span>
-                  <div className="mt-1 flex flex-col">
+                  <div className="mt-2 flex flex-col">
                     {contact.phones.map((p) => (
                       <a
                         key={p}
                         href={`tel:+52${p.replace(/\s/g, "")}`}
-                        className="min-h-[32px] text-paper underline-offset-4 hover:underline"
+                        className="min-h-[32px] text-navy-700 underline-offset-4 hover:underline"
                       >
                         {p}
                       </a>
@@ -165,9 +137,30 @@ export function Contact() {
                   </div>
                 </dd>
               </div>
+
+              <div className="flex gap-5 border-b border-rule py-6">
+                <dt className="sr-only">WhatsApp</dt>
+                <WhatsApp
+                  className="mt-0.5 size-5 shrink-0 text-accent-600"
+                  aria-hidden="true"
+                />
+                <dd>
+                  <span className="block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
+                    WhatsApp
+                  </span>
+                  <a
+                    href={contact.whatsapp.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-navy-700 underline-offset-4 hover:underline"
+                  >
+                    {contact.whatsapp.number}
+                  </a>
+                </dd>
+              </div>
             </dl>
 
-            <div className="mt-10 overflow-hidden rounded-card border border-hairline">
+            <div className="mt-10 border border-rule">
               <iframe
                 src={contact.mapEmbed}
                 title="Ubicación de Colegio Altamira La Cima"
@@ -175,21 +168,17 @@ export function Contact() {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
                 // Explicit height keeps CLS at zero while the map loads.
-                // Google's embed has no dark theme, and a white rectangle is
-                // the one thing on this page that breaks the dark palette —
-                // invert + 180° hue rotation brings it into the system while
-                // keeping roads and labels readable.
-                className="h-[320px] w-full border-0 invert-[.92] hue-rotate-180 saturate-[.7] contrast-[.9]"
+                className="h-[340px] w-full border-0 grayscale-[.35] contrast-[1.05]"
               />
             </div>
           </Reveal>
 
           {/* ── Form ───────────────────────────────────────────────── */}
-          <Reveal direction="left" tall>
-            <div className="rounded-card border border-hairline bg-ink-900 p-7 sm:p-10">
-              <h3 className="font-display text-[length:var(--text-2xl)] text-paper">
+          <Reveal direction="up" tall>
+            <div className="border border-rule bg-paper-50 p-7 sm:p-10">
+              <h2 className="font-display text-[length:var(--text-2xl)]">
                 {contactSection.formTitle}
-              </h3>
+              </h2>
 
               <form onSubmit={onSubmit} noValidate className="mt-8 space-y-6">
                 <div className="grid gap-6 sm:grid-cols-2">
@@ -227,7 +216,7 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="mb-2 block text-sm font-medium text-paper"
+                    className="mb-2 block text-sm font-semibold text-navy-700"
                   >
                     Mensaje
                   </label>
@@ -252,20 +241,12 @@ export function Contact() {
                 {/* One live region for the whole form, so a screen reader
                     announces the outcome once rather than per field. */}
                 <div aria-live="polite" className="min-h-[1.5rem]">
-                  <AnimatePresence>
-                    {status === "sent" ? (
-                      <motion.p
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
-                        className="text-sm text-accent-400"
-                      >
-                        Gracias. Hemos recibido tus datos y te contactaremos
-                        pronto.
-                      </motion.p>
-                    ) : null}
-                  </AnimatePresence>
+                  {status === "sent" ? (
+                    <p className="border-l-2 border-accent-600 bg-accent-100 px-4 py-3 text-sm text-navy-700">
+                      Gracias. Hemos recibido tus datos y te contactaremos
+                      pronto.
+                    </p>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -279,7 +260,7 @@ export function Contact() {
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-2 text-sm text-red-400">
+    <p id={id} className="mt-2 text-sm text-red-700">
       {message}
     </p>
   );
@@ -299,7 +280,10 @@ function Field({
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-sm font-medium text-paper">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-sm font-semibold text-navy-700"
+      >
         {label}
       </label>
       <input

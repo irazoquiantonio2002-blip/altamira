@@ -1,64 +1,52 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
-import { navigation, site } from "@/lib/site-data";
+import { navigation, site, contact } from "@/lib/site-data";
 import { ChevronDown } from "@/components/ui/Icons";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 
 /**
- * Sticky navbar that reacts to scroll (§7):
- *   · transparent while the hero is on screen, solid + blurred afterwards
- *   · shorter once it is solid
- *   · hides on scroll-down, returns instantly on scroll-up
+ * Corporate navbar.
+ *
+ * On the home page it starts transparent over the dark hero and turns solid
+ * white once the hero is done. Every other page is light from the first
+ * pixel, so it is solid immediately.
  *
  * The transparent/solid switch is driven by an IntersectionObserver on the
- * hero element, not by a `scrollY` threshold. The hero is pinned and three
- * viewports tall, so any fixed pixel threshold flips the navbar to solid
- * while the visitor is still inside the hero. Observing the element itself is
- * the only way to key off "the hero is actually done".
+ * hero element rather than a `scrollY` threshold: the hero is pinned and
+ * three viewports tall, so any fixed pixel threshold flips the bar to white
+ * while the visitor is still inside the dark hero.
  */
 export function Navbar() {
-  const [overHero, setOverHero] = useState(true);
-  const [hidden, setHidden] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const [overHero, setOverHero] = useState(isHome);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const lastY = useRef(0);
+  const closeTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
+    if (!isHome) {
+      setOverHero(false);
+      return;
+    }
     const hero = document.getElementById("hero");
     if (!hero) {
       setOverHero(false);
       return;
     }
-
     const io = new IntersectionObserver(
       ([entry]) => setOverHero(entry.isIntersecting),
       { threshold: 0 },
     );
     io.observe(hero);
     return () => io.disconnect();
-  }, []);
+  }, [isHome, pathname]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      // 80px of grace so the bar does not flicker on small corrections.
-      if (y > lastY.current && y > 80) {
-        setHidden(true);
-        setOpenDropdown(null);
-      } else {
-        setHidden(false);
-      }
-      lastY.current = y;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Close any open dropdown when focus or the pointer leaves the bar.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpenDropdown(null);
@@ -67,68 +55,82 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const solid = !overHero;
+  // Close the route's menus when navigating.
+  useEffect(() => {
+    setOpenDropdown(null);
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const onDark = isHome && overHero;
+
+  // A small grace period stops the dropdown snapping shut while the pointer
+  // crosses the gap between the trigger and the panel.
+  const openNow = (label: string) => {
+    window.clearTimeout(closeTimer.current);
+    setOpenDropdown(label);
+  };
+  const closeSoon = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setOpenDropdown(null), 120);
+  };
 
   return (
     <>
-      <motion.header
+      <header
         className={[
-          "fixed inset-x-0 top-0 z-[100] transition-[background-color,backdrop-filter,border-color,height] duration-500",
-          solid
-            ? "border-b border-hairline bg-ink-950/85 backdrop-blur-xl"
-            : "border-b border-transparent bg-transparent",
+          "fixed inset-x-0 top-0 z-[100] transition-colors duration-500",
+          onDark
+            ? "border-b border-transparent bg-transparent"
+            : "border-b border-rule bg-paper",
         ].join(" ")}
-        animate={{ y: hidden && !menuOpen ? "-100%" : "0%" }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
         <nav
           aria-label="Menú principal"
-          className={[
-            "container-x flex items-center justify-between gap-6 transition-[padding] duration-500",
-            solid ? "py-3" : "py-5",
-          ].join(" ")}
+          className="container-x flex items-center justify-between gap-6 py-4"
         >
-          <a
-            href="#hero"
+          <Link
+            href="/"
             className="relative z-10 shrink-0"
             aria-label={`${site.name} — inicio`}
           >
             <Image
-              src={site.logo}
+              src={onDark ? site.logo : site.logoDark}
               alt={site.name}
               width={168}
               height={48}
               priority
-              className={[
-                "w-auto transition-[height] duration-500",
-                solid ? "h-9" : "h-11",
-              ].join(" ")}
+              className="h-10 w-auto"
             />
-          </a>
+          </Link>
 
-          {/* ── Desktop menu ─────────────────────────────────────── */}
-          <ul className="hidden items-center gap-1 lg:flex">
+          {/* ── Desktop ──────────────────────────────────────────── */}
+          <ul className="hidden items-center lg:flex">
             {navigation.map((item) => {
               const hasChildren = !!item.children?.length;
               const isOpen = openDropdown === item.label;
+              const active =
+                item.href !== "/" && pathname.startsWith(item.href);
 
               return (
                 <li
                   key={item.label}
                   className="relative"
-                  onMouseEnter={() =>
-                    hasChildren && setOpenDropdown(item.label)
-                  }
-                  onMouseLeave={() => hasChildren && setOpenDropdown(null)}
+                  onMouseEnter={() => hasChildren && openNow(item.label)}
+                  onMouseLeave={() => hasChildren && closeSoon()}
                 >
-                  <a
+                  <Link
                     href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noopener noreferrer" : undefined}
                     aria-expanded={hasChildren ? isOpen : undefined}
-                    aria-haspopup={hasChildren ? "true" : undefined}
-                    onFocus={() => hasChildren && setOpenDropdown(item.label)}
-                    className="flex min-h-[44px] items-center gap-1.5 rounded-pill px-4 text-sm font-medium text-paper/85 transition-colors duration-300 hover:text-paper"
+                    aria-current={active ? "page" : undefined}
+                    onFocus={() => hasChildren && openNow(item.label)}
+                    className={[
+                      "flex min-h-[44px] items-center gap-1.5 px-4 text-sm font-medium transition-colors duration-300",
+                      onDark
+                        ? "text-white/85 hover:text-white"
+                        : active
+                          ? "text-navy-700"
+                          : "text-graphite hover:text-navy-700",
+                    ].join(" ")}
                   >
                     {item.label}
                     {hasChildren ? (
@@ -138,34 +140,49 @@ export function Navbar() {
                         }`}
                       />
                     ) : null}
-                  </a>
+                  </Link>
+
+                  {/* Active page marker — a square rule, never a pill. */}
+                  {active && !onDark ? (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-4 bottom-0 h-px bg-accent-600"
+                    />
+                  ) : null}
 
                   {hasChildren ? (
-                    <motion.div
-                      initial={false}
-                      animate={
+                    <div
+                      className={[
+                        "absolute left-0 top-full w-64 border border-rule bg-paper py-2 shadow-[0_18px_50px_-24px_rgba(5,12,30,0.4)] transition-all duration-200",
                         isOpen
-                          ? { opacity: 1, y: 0, pointerEvents: "auto" }
-                          : { opacity: 0, y: 8, pointerEvents: "none" }
-                      }
-                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute left-0 top-full w-60 overflow-hidden rounded-card border border-hairline bg-ink-900/95 p-2 shadow-2xl backdrop-blur-xl"
+                          ? "pointer-events-auto translate-y-0 opacity-100"
+                          : "pointer-events-none -translate-y-1 opacity-0",
+                      ].join(" ")}
                     >
-                      {item.children?.map((child) => (
-                        <a
-                          key={child.label}
-                          href={child.href}
-                          target={child.external ? "_blank" : undefined}
-                          rel={
-                            child.external ? "noopener noreferrer" : undefined
-                          }
-                          tabIndex={isOpen ? 0 : -1}
-                          className="flex min-h-[44px] items-center rounded-lg px-4 text-sm text-mist transition-colors duration-200 hover:bg-white/5 hover:text-paper"
-                        >
-                          {child.label}
-                        </a>
-                      ))}
-                    </motion.div>
+                      {item.children?.map((child) =>
+                        child.external ? (
+                          <a
+                            key={child.label}
+                            href={child.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            tabIndex={isOpen ? 0 : -1}
+                            className="flex min-h-[44px] items-center px-5 text-sm text-graphite transition-colors hover:bg-paper-100 hover:text-navy-700"
+                          >
+                            {child.label}
+                          </a>
+                        ) : (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            tabIndex={isOpen ? 0 : -1}
+                            className="flex min-h-[44px] items-center px-5 text-sm text-graphite transition-colors hover:bg-paper-100 hover:text-navy-700"
+                          >
+                            {child.label}
+                          </Link>
+                        ),
+                      )}
+                    </div>
                   ) : null}
                 </li>
               );
@@ -174,11 +191,28 @@ export function Navbar() {
 
           <div className="flex items-center gap-3">
             <a
-              href="#contacto"
-              className="hidden min-h-[44px] items-center rounded-pill bg-accent-600 px-6 text-sm font-medium text-white transition-colors duration-300 hover:bg-accent-700 lg:inline-flex"
+              href={contact.primaryPhone.href}
+              className={[
+                "hidden text-sm font-medium transition-colors xl:inline-flex",
+                onDark
+                  ? "text-white/75 hover:text-white"
+                  : "text-slate hover:text-navy-700",
+              ].join(" ")}
+            >
+              {contact.primaryPhone.label}
+            </a>
+
+            <Link
+              href="/admisiones"
+              className={[
+                "hidden min-h-[44px] items-center px-6 text-sm font-semibold tracking-wide transition-colors duration-300 lg:inline-flex",
+                onDark
+                  ? "bg-white text-ink-950 hover:bg-white/85"
+                  : "bg-navy-700 text-white hover:bg-accent-700",
+              ].join(" ")}
             >
               Admisiones
-            </a>
+            </Link>
 
             <button
               type="button"
@@ -186,7 +220,12 @@ export function Navbar() {
               aria-label="Abrir menú"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className="grid size-11 place-items-center rounded-full border border-hairline text-paper transition-colors duration-300 hover:border-hairline-strong lg:hidden"
+              className={[
+                "grid size-11 place-items-center border transition-colors duration-300 lg:hidden",
+                onDark
+                  ? "border-white/25 text-white"
+                  : "border-rule-strong text-navy-700",
+              ].join(" ")}
             >
               <span className="sr-only">Abrir menú</span>
               <span aria-hidden="true" className="flex flex-col gap-[5px]">
@@ -197,7 +236,7 @@ export function Navbar() {
             </button>
           </div>
         </nav>
-      </motion.header>
+      </header>
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>

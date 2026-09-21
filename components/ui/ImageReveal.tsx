@@ -17,7 +17,7 @@ type ImageRevealProps = {
   priority?: boolean;
   /** Vertical drift range in px as the frame crosses the viewport. */
   parallax?: number;
-  /** Apply the shared dark scrim over the photo. */
+  /** Apply the shared dark scrim. Only for photos that carry text. */
   scrim?: boolean;
 };
 
@@ -51,7 +51,7 @@ export function ImageReveal({
   sizes = "(max-width: 768px) 100vw, 50vw",
   priority = false,
   parallax = 0,
-  scrim = true,
+  scrim = false,
 }: ImageRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -92,9 +92,9 @@ export function ImageReveal({
             sizes={sizes}
             priority={priority}
             loading={priority ? undefined : "lazy"}
-            // `saturate-[.85]` is the de-saturation pass from §5.3, applied
-            // to all photography rather than the hero alone.
-            className={`size-full object-cover saturate-[.85] ${imgClassName}`}
+            // One de-saturation pass on every photo, so the imagery reads
+            // as one system rather than as assorted stock.
+            className={`size-full object-cover saturate-[.8] ${imgClassName}`}
           />
         </motion.div>
         {scrim ? <div className="photo-scrim" /> : null}

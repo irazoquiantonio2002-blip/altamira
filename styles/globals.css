@@ -2,67 +2,78 @@
 
 /* ============================================================
    ALTAMIRA LA CIMA — Design System
-   Dark institutional editorial. Duke-inspired visual language,
-   Altamira brand colors.
+   Light corporate. White paper, navy ink, one blue accent.
 
-   Rule of the system: elegance over saturation. Max ~2 accents
-   per screen. When in doubt, remove.
+   Three rules the whole system obeys:
+     1. No rounded corners anywhere. Every edge is square.
+     2. Structure comes from hairlines and whitespace, never from
+        shadows, cards-on-cards or gradients.
+     3. One accent per screen. When in doubt, remove.
    ============================================================ */
 
 @theme {
-  /* ── Base: near-black ink ─────────────────────────────── */
-  --color-ink-950: #0a0e14; /* page base */
-  --color-ink-900: #0d1220; /* raised surface / alternating band */
-  --color-ink-800: #121a2c; /* cards on dark */
+  /* ── Paper: the light base ─────────────────────────────── */
+  --color-paper: #ffffff;
+  --color-paper-50: #fafafa; /* alternating band */
+  --color-paper-100: #f4f5f7; /* inset surface */
+
+  /* ── Ink: text and dark surfaces ───────────────────────── */
+  --color-ink-950: #05070c; /* hero base, footer */
+  --color-ink-900: #0d1220;
+  --color-ink-800: #141c2e;
 
   /* ── Navy: the brand anchor (real crest color) ─────────── */
   --color-navy-900: #0f1c3a;
-  --color-navy-700: #192e5e; /* ★ BRAND NAVY */
+  --color-navy-700: #192e5e; /* ★ BRAND NAVY — headings, dark bands */
   --color-navy-600: #21396f;
   --color-navy-500: #2a4a86;
 
-  /* ── Accent blue: CTAs, chevrons, rules, hover ──────────
-     accent-500 is the brand accent and the one used for fills, rules and
-     chevrons. It is NOT used for white text on top: white on #2d6cff is
-     4.47:1, just under AA. Solid buttons use accent-600 (4.90:1) and darken
-     to accent-700 on hover; accent-400 is the readable variant for accent
-     text on a dark surface (5.5–6.1:1). */
-  --color-accent-700: #1a57e6;
-  --color-accent-600: #1e63ff;
-  --color-accent-500: #2d6cff; /* ★ primary accent */
-  --color-accent-400: #5b8cff;
+  /* ── Accent blue ────────────────────────────────────────
+     accent-600 is the only one used behind white text (5.9:1).
+     accent-700 is the hover. accent-500 is for fills, rules and
+     marks, never for text on white. */
+  --color-accent-700: #16439e;
+  --color-accent-600: #1a57e6;
+  --color-accent-500: #2d6cff;
+  --color-accent-100: #e7eeff;
 
-  /* ── Neutrals ─────────────────────────────────────────── */
-  --color-paper: #ffffff;
-  --color-mist: #b7c0d0; /* body text on dark — AA on ink-950 */
-  --color-mist-dim: #8a94a8; /* secondary text — AA large only */
-  --color-hairline: rgba(255, 255, 255, 0.08);
-  --color-hairline-strong: rgba(255, 255, 255, 0.16);
+  /* ── Text on paper ─────────────────────────────────────── */
+  --color-graphite: #343b47; /* body copy — 10.6:1 on white */
+  --color-slate: #5d6675; /* secondary — 6.3:1 on white */
+
+  /* ── Hairlines ─────────────────────────────────────────── */
+  --color-rule: #e3e6ec;
+  --color-rule-strong: #c9ced9;
+  --color-rule-dark: rgba(255, 255, 255, 0.14);
 
   /* ── Typography ───────────────────────────────────────── */
   --font-display: var(--font-fraunces), "Playfair Display", Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 
-  /* Fluid scale — every size is clamp()ed, nothing fixed. */
-  --text-label: clamp(0.68rem, 0.66rem + 0.1vw, 0.75rem);
+  --text-label: clamp(0.66rem, 0.64rem + 0.1vw, 0.72rem);
   --text-sm: clamp(0.82rem, 0.8rem + 0.12vw, 0.9rem);
-  --text-base: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
-  --text-lg: clamp(1.08rem, 1.02rem + 0.3vw, 1.25rem);
-  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-  --text-2xl: clamp(1.5rem, 1.35rem + 0.75vw, 2rem);
-  --text-3xl: clamp(1.85rem, 1.6rem + 1.25vw, 2.75rem);
-  --text-4xl: clamp(2.2rem, 1.8rem + 2vw, 3.75rem);
-  --text-5xl: clamp(2.6rem, 2rem + 3vw, 5rem);
-  --text-6xl: clamp(3rem, 2rem + 5vw, 7rem);
+  --text-base: clamp(0.95rem, 0.92rem + 0.18vw, 1.03rem);
+  --text-lg: clamp(1.06rem, 1rem + 0.3vw, 1.2rem);
+  --text-xl: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+  --text-2xl: clamp(1.45rem, 1.3rem + 0.75vw, 1.95rem);
+  --text-3xl: clamp(1.8rem, 1.55rem + 1.2vw, 2.6rem);
+  --text-4xl: clamp(2.1rem, 1.7rem + 1.9vw, 3.5rem);
+  --text-5xl: clamp(2.5rem, 1.9rem + 2.8vw, 4.5rem);
   --text-hero: clamp(2.75rem, 1.4rem + 6.5vw, 8.5rem);
 
   /* ── Motion ───────────────────────────────────────────── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 
-  /* ── Radius ───────────────────────────────────────────── */
-  --radius-card: 14px;
-  --radius-pill: 999px;
+  /* ── No radii. Declared as zero so any stray `rounded-*`
+        utility still lands square. ─────────────────────────── */
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
 }
 
 /* ============================================================
@@ -71,24 +82,18 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    /* Lenis drives scrolling; native smooth would fight it. */
     -webkit-text-size-adjust: 100%;
   }
 
-  html.lenis-active {
-    scroll-behavior: auto;
-  }
-
   body {
-    background-color: var(--color-ink-950);
-    color: var(--color-mist);
+    background-color: var(--color-paper);
+    color: var(--color-graphite);
     font-family: var(--font-sans);
     font-size: var(--text-base);
-    line-height: 1.7;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Hard requirement §8: zero horizontal overflow at any width. */
+    /* Hard requirement: zero horizontal overflow at any width. */
     overflow-x: clip;
   }
 
@@ -96,11 +101,11 @@
   h2,
   h3,
   h4 {
-    color: var(--color-paper);
+    color: var(--color-navy-700);
     font-family: var(--font-display);
     font-weight: 400;
-    line-height: 1.04;
-    letter-spacing: -0.02em;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
     text-wrap: balance;
   }
 
@@ -108,34 +113,36 @@
     text-wrap: pretty;
   }
 
+  /* Square corners are a system rule, not a per-component choice —
+     this catches anything a library or a stray utility adds. */
+  *,
+  *::before,
+  *::after {
+    border-radius: 0 !important;
+  }
+
   ::selection {
-    background: var(--color-accent-500);
+    background: var(--color-navy-700);
     color: #fff;
   }
 
-  /* §9 — focus visible on every interactive element. */
   :focus-visible {
-    outline: 2px solid var(--color-accent-400);
+    outline: 2px solid var(--color-accent-600);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
-  /* Touch targets ≥ 44px (§8). */
   a,
   button {
     -webkit-tap-highlight-color: transparent;
   }
 
   img {
-    /* CLS = 0: images always reserve their box. */
     height: auto;
   }
 }
 
 /* ============================================================
-   Reduced motion — global kill switch (§9)
-   Every scroll-driven effect also checks this in JS; these rules
-   catch the purely-CSS ones.
+   Reduced motion (§9)
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -157,13 +164,12 @@
     transform: none !important;
   }
 
-  /* The motion library commits its `initial` variant as an inline style
-     during the first render, before a `matchMedia` hook running in an effect
-     can report that motion is reduced. Swapping the variants afterwards does
-     not retroactively clear that inline style, so elements stay at opacity 0
-     or clipped to nothing — content simply never appears.
-     This forces every animated wrapper to its resting state in CSS, which
-     lands before first paint and cannot lose that race. */
+  /* The motion library commits its `initial` variant as an inline style on
+     first render, before a `matchMedia` hook running in an effect can report
+     that motion is reduced. Swapping variants afterwards does not clear that
+     inline style, so content stays at opacity 0 or clipped to nothing.
+     Forcing the resting state here lands before first paint and cannot lose
+     that race. */
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
@@ -177,57 +183,52 @@
 
 @utility container-x {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1360px;
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 5vw, 4rem);
+  padding-inline: clamp(1.25rem, 5vw, 4.5rem);
 }
 
-/* Section label: "● Quiénes somos" — uppercase, wide tracking, blue dot. */
+/* "● Quiénes somos" — the eyebrow that opens every block. */
 @utility section-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
+  gap: 0.7em;
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-mist);
+  color: var(--color-slate);
 }
 
-/* Hairline rule used to separate bands. */
-@utility hairline-top {
-  border-top: 1px solid var(--color-hairline);
+/* Vertical rhythm. One scale for every section on the site. */
+@utility section-y {
+  padding-block: clamp(4.5rem, 9vw, 9rem);
 }
 
-/* Photography treatment: every photo gets the same dark gradient scrim and
-   a slight desaturation so images read as one system, never as raw stock. */
+/* Photography treatment on dark bands. */
 @utility photo-scrim {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(
       to top,
-      rgba(10, 14, 20, 0.92) 0%,
-      rgba(10, 14, 20, 0.45) 45%,
-      rgba(10, 14, 20, 0.15) 100%
+      rgba(5, 7, 12, 0.88) 0%,
+      rgba(5, 7, 12, 0.55) 50%,
+      rgba(5, 7, 12, 0.4) 100%
     ),
-    linear-gradient(
-      to right,
-      rgba(25, 46, 94, 0.35) 0%,
-      rgba(25, 46, 94, 0) 60%
-    );
+    linear-gradient(to right, rgba(25, 46, 94, 0.5) 0%, rgba(25, 46, 94, 0.1) 70%);
   pointer-events: none;
 }
 
 /* ============================================================
-   Marquee (§7) — pure CSS so it costs nothing on the main thread
+   Marquee — CSS-only, costs nothing on the main thread
    ============================================================ */
 
 .marquee__track {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 42s linear infinite;
+  animation: marquee-scroll 46s linear infinite;
   will-change: transform;
 }
 
@@ -241,11 +242,142 @@
     transform: translate3d(0, 0, 0);
   }
   to {
-    /* Track holds the item list twice; -50% is exactly one full cycle. */
+    /* The track holds the item list twice; -50% is one full cycle. */
     transform: translate3d(-50%, 0, 0);
   }
 }
 
-/* `[data-reveal]` marks elements whose visible state is driven by the motion
-   library. Nothing here hides them — the only rule that touches them is the
-   reduced-motion override above, which forces them visible. */
+/* ============================================================
+   Hero — ported verbatim from the original static site so the
+   scroll flythrough keeps the exact behaviour it had.
+   ============================================================ */
+
+.hero__pin {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--color-ink-950);
+}
+
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  --dark: 0.72;
+}
+
+.hero__backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.hero__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(5, 7, 12, 0.7) 0%,
+      rgba(5, 7, 12, 0.35) 45%,
+      rgba(5, 7, 12, 0.85) 100%
+    ),
+    rgba(5, 7, 12, var(--dark));
+  pointer-events: none;
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* The study icon is positioned every frame from a projected 3D point on
+   the mountain ridge, so it stays stuck to the ridge through the whole
+   camera move. Left/top/transform are all written by JS. */
+.hero__study-icon {
+  position: absolute;
+  width: clamp(54px, 7vw, 104px);
+  height: auto;
+  opacity: 0.92;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.55));
+}
+
+.hero__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 62rem);
+  text-align: center;
+  z-index: 3;
+  opacity: 0;
+  padding-inline: 1.25rem;
+}
+
+.hero__stage[data-stage="0"] {
+  opacity: 1;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 6px 40px rgba(0, 0, 0, 0.5);
+}
+
+.hero__title-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.hero__subtitle-line {
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.86);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* WebGL unavailable: the photo and the copy still carry the hero. */
+.hero--fallback .hero__canvas {
+  display: none;
+}
+
+.hero--fallback .hero__stage[data-stage="0"] {
+  opacity: 1 !important;
+}
+
+.hero--fallback .hero__stage:not([data-stage="0"]) {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage {
+    transition: none !important;
+  }
+
+  .hero__stage[data-stage="0"] {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .hero__stage:not([data-stage="0"]) {
+    display: none;
+  }
+
+  .hero__study-icon {
+    visibility: hidden !important;
+  }
+}
