@@ -16,7 +16,7 @@ npm start
 ```
 
 Node 18.18+ (probado con Node 24). El primer arranque descarga las fuentes
-(Fraunces + Inter) vía `next/font`, así que necesita red una vez.
+(Playfair Display + Inter) vía `next/font`, así que necesita red una vez.
 
 ---
 
@@ -51,12 +51,14 @@ components/
              Programs · Community · Facilities · AdmissionsCTA · Contact
   ui/        Button · Reveal · TextReveal · ImageReveal · CountUp
              SectionLabel · Icons
+  ui/scroll/ los 12 efectos de scroll (ver tabla de Animaciones)
   providers/ SmoothScroll (Lenis + ticker de GSAP)
 lib/
   site-data.ts            ← TODO el contenido, cifras, enlaces y contactos
   animations.ts           variantes y easings compartidos
   gsap.ts                 carga diferida de GSAP + ScrollTrigger
   useMotionPrefs.ts       useReducedMotion / useIsMobile / useMounted
+  useScrollValue.ts       valores ligados al scroll, siempre evaluados en JS
 styles/globals.css        design tokens (@theme), base, hero, utilidades
 public/img/               imágenes
 legacy/                   sitio estático anterior (referencia, no se compila)
@@ -82,8 +84,11 @@ Tokens en `@theme` dentro de [`styles/globals.css`](styles/globals.css).
 | `rule` / `rule-strong` | `#e3e6ec` · `#c9ced9` | hairlines |
 | `ink-950` | `#05070c` | hero y footer |
 
-Tipografía: **Fraunces** (display serif) + **Inter** (cuerpo y UI), fluida con
-`clamp()` en toda la escala.
+Tipografía: **Playfair Display** (display serif) + **Inter** (cuerpo y UI),
+fluida con `clamp()` en toda la escala. Playfair trae numerales de estilo
+antiguo por defecto (el 3 baja de la línea); el `body` fuerza
+`font-variant-numeric: lining-nums` para que cifras e índices se alineen.
+Cambiar la serif es una línea en `app/layout.tsx`.
 
 **Tres reglas del sistema:**
 1. **Cero bordes redondeados.** Hay un `border-radius: 0 !important` global,
@@ -116,17 +121,30 @@ bundle inicial, y la portada es la única página que descarga Three.js.
 
 ## Animaciones
 
-| Efecto | Dónde |
-|---|---|
-| Vuelo de cámara 3D en 3 actos | Hero (Inicio) |
-| Scroll reveal + stagger | todas las páginas |
-| Text reveal por línea/palabra | títulos serif |
-| Image reveal (clip-path) + parallax | todas las fotos |
-| Scroll horizontal fijado | Comunidad (≥1024px) |
-| Count-up | banda de cifras |
-| Marquee infinito (pausa en hover) | banda de valores |
+Cada página tiene su propio efecto de firma, para que ninguna se sienta copia
+de otra. Todos viven en `components/ui/scroll/`.
 
-### Tres trampas resueltas (no reintroducir)
+| Efecto | Componente | Dónde |
+|---|---|---|
+| Vuelo de cámara 3D en 3 actos | `CosmosHero` | Inicio |
+| Marco que se despliega del centro a pantalla completa | `ClipRevealBand` | Inicio, Oferta |
+| Paneles que se expanden al pasar el cursor | `ExpandingPanels` | Inicio |
+| Tarjetas que se apilan al hacer scroll | `StackingCards` | Inicio |
+| Foto fija que cambia de imagen según el texto | `StickySwapGallery` | Nosotros |
+| Frase que se ilumina palabra por palabra | `ScrollTextHighlight` | Nosotros, Comunidad |
+| Líneas de fondo animadas | `BackgroundPaths` | Nosotros, Contacto, banda CTA |
+| Panel que se aplana al entrar (rotateX) | `TiltCardScroll` | Oferta |
+| Apertura circular de imagen | `CircularReveal` | Comunidad, Admisiones |
+| Scroll horizontal fijado | `Community` | Comunidad |
+| Coreografía de 4 fotos que convergen y se abren | `ScrollChoreography` | Instalaciones |
+| Galería con fotos a distinta velocidad | `ParallaxColumn` | Instalaciones |
+| Línea de tiempo que se dibuja con el scroll | `ScrollTimeline` | Admisiones |
+| Parallax de salida de la cabecera | `PageHeader` | las 6 páginas internas |
+| Marquee ligado a la velocidad del scroll | `Marquee` | Inicio, Nosotros, Comunidad |
+| Wordmark gigante que sube | `FooterWordmark` | las 7 páginas |
+| Reveals, text reveal, image reveal, count-up | `components/ui/` | todo el sitio |
+
+### Cuatro trampas resueltas (no reintroducir)
 
 1. **`clip-path: inset(100%)` en el elemento observado.** Un elemento recortado
    a área cero nunca intersecta, así que el IntersectionObserver que debería
@@ -140,6 +158,16 @@ bundle inicial, y la portada es la única página que descarga Three.js.
    sola dentro de su propia máscara, así que todas son "último hijo" y el
    título entero se coloreaba. Se usa el prop `lastLineClassName` de
    `TextReveal`.
+4. **No usar `useTransform(progress, [..], [..])` para valores ligados al
+   scroll — usar `useScrollValue`** (`lib/useScrollValue.ts`). Con un rango,
+   Motion delega la opacidad y los transforms a la `ScrollTimeline` nativa
+   del navegador, y aquí esa línea de tiempo no coincide con el progreso JS:
+   medido en navegador, el texto del final de cada reveal quedaba al ~10% de
+   opacidad y el wordmark del footer al 0.3%, mientras un `y` calculado del
+   mismo progreso llegaba exacto. `useScrollValue` usa una función, que no se
+   puede delegar, así que siempre se evalúa contra el progreso real. Compila y
+   no da error en consola: sólo se ve midiendo `getComputedStyle` en el punto
+   final del efecto.
 
 ---
 

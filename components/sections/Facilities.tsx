@@ -3,6 +3,7 @@ import { SectionHead } from "@/components/ui/SectionLabel";
 import { Reveal, RevealItem, Stagger } from "@/components/ui/Reveal";
 import { ImageReveal } from "@/components/ui/ImageReveal";
 import { FacilityIconGlyph } from "@/components/ui/Icons";
+import { CountUp } from "@/components/ui/CountUp";
 
 /** Campus: a wide aerial with parallax, the m² figure, and the feature rules. */
 export function Facilities({ withHead = true }: { withHead?: boolean }) {
@@ -36,7 +37,11 @@ export function Facilities({ withHead = true }: { withHead?: boolean }) {
         <div className="grid border-b border-t border-rule lg:grid-cols-[auto_1fr]">
           <Reveal direction="up" className="border-rule p-8 lg:border-r lg:p-10">
             <span className="block font-display text-[length:var(--text-4xl)] leading-none text-navy-700">
-              {facilities.badge.value}
+              <CountUp
+                value={facilities.badge.number}
+                suffix={facilities.badge.suffix}
+                duration={2200}
+              />
             </span>
             <span className="mt-2 block text-[length:var(--text-label)] uppercase tracking-[0.16em] text-slate">
               {facilities.badge.label}

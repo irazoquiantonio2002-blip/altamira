@@ -279,26 +279,50 @@ export const pillars = {
       title: "Centrada en la Persona",
       text: "Cada alumno es singular, autónomo y protagonista de su vida y de su aprendizaje. Cada persona es una gran novedad por descubrir y formar.",
       icon: "person" as PillarIcon,
+      image: {
+        src: "/img/about.jpg",
+        alt: "Alumnos trabajando en equipo en Altamira La Cima",
+      },
     },
     {
       index: "02",
       title: "Formación Integral",
       text: "Cuerpo mediante el deporte, corazón para manejar emociones, inteligencia con pensamiento crítico, y voluntad para adquirir virtudes.",
       icon: "heart" as PillarIcon,
+      image: {
+        src: "/img/hero/futuro-basquetbol.jpg",
+        alt: "Alumnos en actividad deportiva en Altamira La Cima",
+      },
     },
     {
       index: "03",
       title: "Identidad Católica",
       text: "El espíritu se enriquece dentro de la fe católica. Con el acompañamiento del Opus Dei, enseñamos que todos podemos ser santos en nuestras ocupaciones.",
       icon: "cross" as PillarIcon,
+      image: {
+        src: "/img/hero/altamira-comunidad.jpg",
+        alt: "Comunidad de Colegio Altamira La Cima",
+      },
     },
     {
       index: "04",
       title: "Educación Diferenciada",
       text: "Reconocemos las diferencias entre hombres y mujeres, adecuando estrategias pedagógicas para mejores resultados académicos y deportivos.",
       icon: "balance" as PillarIcon,
+      image: {
+        src: "/img/hero/formacion-ajedrez.jpg",
+        alt: "Alumnos de Altamira La Cima en actividad de concentración",
+      },
     },
   ],
+} as const;
+
+/** Scroll-linked statements. Real copy, condensed from the About text. */
+export const statements = {
+  nosotros:
+    "Buscamos el desarrollo integral de cada persona de nuestra comunidad: padres, profesores, alumnos y alumni, con una visión católica de la vida.",
+  comunidad:
+    "El alumno es una persona única e irrepetible, protagonista de su propio aprendizaje y de su propia vida.",
 } as const;
 
 export const programs = {
@@ -383,7 +407,7 @@ export const facilities = {
   title: "Nuestras instalaciones",
   subtitle:
     "Un entorno diseñado para inspirar el aprendizaje y el desarrollo integral.",
-  badge: { value: "10,000+", label: "m² de campus" },
+  badge: { value: "10,000+", number: 10000, suffix: "+", label: "m² de campus" },
   showcase: {
     title: "Campus La Cima",
     text: "Más de 10,000 m² de áreas verdes, canchas deportivas, laboratorios de ciencias y tecnología, y espacios diseñados para cada nivel educativo.",

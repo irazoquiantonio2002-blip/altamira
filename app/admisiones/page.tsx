@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Stats } from "@/components/sections/Stats";
 import { SectionHead } from "@/components/ui/SectionLabel";
-import { Reveal, RevealItem, Stagger } from "@/components/ui/Reveal";
+import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { MapPin, Mail, Phone, WhatsApp } from "@/components/ui/Icons";
+import { CircularReveal } from "@/components/ui/scroll/CircularReveal";
+import { ScrollTimeline } from "@/components/ui/scroll/ScrollTimeline";
 import { admissionSteps, contact, pageHeaders } from "@/lib/site-data";
 
 export const metadata: Metadata = {
@@ -18,6 +20,21 @@ export default function AdmisionesPage() {
     <>
       <PageHeader data={pageHeaders.admisiones} breadcrumb="Admisiones" />
 
+      <CircularReveal
+        src="/img/hero/campus-backdrop.jpg"
+        alt="Campus de Colegio Altamira La Cima"
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="section-label justify-center !text-white/70">
+            <span aria-hidden="true" className="size-[5px] bg-accent-500" />
+            Admisiones abiertas
+          </span>
+          <p className="mt-5 font-display text-[length:var(--text-3xl)] text-white">
+            El primer paso es conocernos.
+          </p>
+        </div>
+      </CircularReveal>
+
       {/* Process — numbered rows, one per step. */}
       <section className="section-y bg-paper">
         <div className="container-x">
@@ -29,22 +46,9 @@ export default function AdmisionesPage() {
             />
           </Reveal>
 
-          <Stagger className="mt-14 border-t border-rule" gap={0.1} tall>
-            {admissionSteps.map((step) => (
-              <RevealItem
-                key={step.index}
-                className="group grid gap-4 border-b border-rule py-9 transition-colors duration-500 hover:bg-paper-50 lg:grid-cols-[6rem_1fr_1.4fr] lg:items-baseline lg:gap-10"
-              >
-                <span className="font-display text-[length:var(--text-2xl)] text-rule-strong transition-colors duration-500 group-hover:text-accent-600">
-                  {step.index}
-                </span>
-                <h3 className="font-display text-[length:var(--text-xl)]">
-                  {step.title}
-                </h3>
-                <p className="max-w-prose text-slate">{step.text}</p>
-              </RevealItem>
-            ))}
-          </Stagger>
+          <div className="mt-16 max-w-4xl">
+            <ScrollTimeline steps={admissionSteps} />
+          </div>
         </div>
       </section>
 

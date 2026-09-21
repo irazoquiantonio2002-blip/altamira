@@ -47,7 +47,7 @@
   --color-rule-dark: rgba(255, 255, 255, 0.14);
 
   /* ── Typography ───────────────────────────────────────── */
-  --font-display: var(--font-fraunces), "Playfair Display", Georgia, serif;
+  --font-display: var(--font-display-serif), "Playfair Display", Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 
   --text-label: clamp(0.66rem, 0.64rem + 0.1vw, 0.72rem);
@@ -93,6 +93,11 @@
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Playfair Display defaults to old-style figures, which sink the 3 and
+       5 below the baseline and make figures like "100%" or "01" look uneven.
+       Lining figures sit on the baseline at cap height. Inherited, so every
+       display numeral on the site picks it up. */
+    font-variant-numeric: lining-nums;
     /* Hard requirement: zero horizontal overflow at any width. */
     overflow-x: clip;
   }
@@ -307,10 +312,15 @@
   width: clamp(54px, 7vw, 104px);
   height: auto;
   opacity: 0.92;
+  /* The source PNG is a dark silhouette. `brightness(0)` flattens every
+     opaque pixel to black and `invert(1)` flips it to pure white, leaving
+     the alpha channel untouched — so the figure reads white against the
+     night sky without needing a second asset. */
+  filter: brightness(0) invert(1)
+    drop-shadow(0 8px 26px rgba(0, 0, 0, 0.55));
   visibility: hidden;
   pointer-events: none;
   z-index: 2;
-  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.55));
 }
 
 .hero__stage {

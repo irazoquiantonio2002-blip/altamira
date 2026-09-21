@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { contact, footer, navigation, site, socials } from "@/lib/site-data";
 import { SocialIconGlyph } from "@/components/ui/Icons";
+import { FooterWordmark } from "@/components/layout/FooterWordmark";
 
 /** Dark multi-column footer — the page's closing block. */
 export function Footer() {
@@ -64,7 +65,7 @@ export function Footer() {
 
           {/* Site map — real pages, so the footer doubles as navigation. */}
           <nav aria-label="Mapa del sitio">
-            <h2 className="text-[length:var(--text-label)] font-semibold uppercase tracking-[0.2em] text-white">
+            <h2 className="font-sans text-[length:var(--text-label)] font-semibold uppercase tracking-[0.2em] text-white">
               Navegación
             </h2>
             <ul className="mt-6 space-y-1">
@@ -93,7 +94,7 @@ export function Footer() {
 
           {footer.columns.slice(0, 2).map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <h2 className="text-[length:var(--text-label)] font-semibold uppercase tracking-[0.2em] text-white">
+              <h2 className="font-sans text-[length:var(--text-label)] font-semibold uppercase tracking-[0.2em] text-white">
                 {col.title}
               </h2>
               <ul className="mt-6 space-y-1">
@@ -145,6 +146,8 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      <FooterWordmark />
     </footer>
   );
 }

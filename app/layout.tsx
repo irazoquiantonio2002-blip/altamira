@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Navbar } from "@/components/layout/Navbar";
@@ -11,10 +11,13 @@ import { site, contact, socials } from "@/lib/site-data";
  * sans for body and UI. Both self-hosted by `next/font`, so there is no
  * render-blocking Google Fonts request and no FOUT.
  */
-const fraunces = Fraunces({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-display-serif",
   display: "swap",
+  // Only the weights the design actually uses, so nothing extra downloads.
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 const inter = Inter({
@@ -83,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es-MX" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="es-MX" className={`${playfair.variable} ${inter.variable}`}>
       <body className="bg-paper antialiased">
         <script
           type="application/ld+json"

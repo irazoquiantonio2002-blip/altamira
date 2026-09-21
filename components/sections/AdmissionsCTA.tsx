@@ -3,15 +3,23 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
+import { BackgroundPaths } from "@/components/ui/scroll/BackgroundPaths";
 
 /**
  * The closing navy band. The one saturated surface on an otherwise white
  * site, so it reads as a deliberate stop rather than as decoration.
+ *
+ * White line-work drifts behind the copy, so the band that closes almost
+ * every page is never a flat slab of colour.
  */
 export function AdmissionsCTA() {
   return (
-    <section aria-labelledby="cta-title" className="bg-navy-700 py-20 sm:py-28">
-      <div className="container-x">
+    <section
+      aria-labelledby="cta-title"
+      className="relative isolate overflow-hidden bg-navy-700 py-20 sm:py-28"
+    >
+      <BackgroundPaths light className="!opacity-30" />
+      <div className="container-x relative">
         <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_auto] lg:gap-16">
           <div>
             <Reveal direction="up">

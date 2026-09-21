@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useScroll } from "motion/react";
 import { EASE_OUT_EXPO } from "@/lib/animations";
 import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
+import { useScrollValue } from "@/lib/useScrollValue";
 
 type ImageRevealProps = {
   src: string;
@@ -65,7 +66,7 @@ export function ImageReveal({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [range, -range]);
+  const y = useScrollValue(scrollYProgress, [0, 1], [range, -range]);
 
   return (
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
