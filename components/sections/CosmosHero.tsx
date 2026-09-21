@@ -297,6 +297,27 @@ export function CosmosHero() {
         three.atmosphere = atmosphere;
       }
 
+      /* Chooses the ridge point the study icon sits on.
+         Portrait screens have a much narrower horizontal field of view at the
+         same vertical FOV, so the wide-screen point (x = 280) projects past
+         the right edge on them and needs a more centred one. The choice is
+         made on the screen's shape, not a width breakpoint: a tablet held
+         upright is wider than 768px yet still portrait, and a width read
+         once at load goes stale when the window is resized. Standard
+         landscape desktops (16:10, 16:9) keep the wide-screen point. */
+      function pickIconAnchor() {
+        const wide = window.innerWidth / window.innerHeight >= 1.4;
+        iconAnchor3D = wide
+          ? new THREE.Vector3(280, -150, -50)
+          : new THREE.Vector3(70, -120, -50);
+        // Measured from the camera's starting position, so the icon's scale
+        // stays consistent however far through the flythrough a resize lands.
+        const k0 = cameraKeyframes[0];
+        iconBaseDist = new THREE.Vector3(k0.x, k0.y, k0.z).distanceTo(
+          iconAnchor3D,
+        );
+      }
+
       function initThree(): boolean {
         try {
           scene = new THREE.Scene();
@@ -330,16 +351,8 @@ export function CosmosHero() {
           /* A real point on the front mountain's ridge. Projected to screen
              space every frame in animate(), so the study icon tracks the
              ridge through the whole camera move instead of a CSS position
-             that only happens to line up once.
-             Portrait phones have a much narrower horizontal field of view at
-             the same vertical FOV, so the desktop anchor sits outside the
-             frustum there and needs its own, more centered point. */
-          if (studyIcon) {
-            iconAnchor3D = isNarrow
-              ? new THREE.Vector3(70, -120, -50)
-              : new THREE.Vector3(280, -150, -50);
-            iconBaseDist = camera.position.distanceTo(iconAnchor3D);
-          }
+             that only happens to line up once. */
+          if (studyIcon) pickIconAnchor();
 
           return true;
         } catch (err) {
@@ -584,6 +597,8 @@ export function CosmosHero() {
           camera.aspect = window.innerWidth / window.innerHeight;
           camera.updateProjectionMatrix();
           renderer.setSize(window.innerWidth, window.innerHeight);
+          // The screen may have changed shape: re-pick the icon's point.
+          if (studyIcon) pickIconAnchor();
           ScrollTrigger.refresh();
         }, 200);
       };
