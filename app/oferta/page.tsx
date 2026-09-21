@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Programs } from "@/components/sections/Programs";
 import { AdmissionsCTA } from "@/components/sections/AdmissionsCTA";
-import { TiltCardScroll } from "@/components/ui/scroll/TiltCardScroll";
+import { ContainerScroll } from "@/components/ui/scroll/ContainerScroll";
 import { ClipRevealBand } from "@/components/ui/scroll/ClipRevealBand";
 import { SectionHead } from "@/components/ui/SectionLabel";
 import { pageHeaders, programs } from "@/lib/site-data";
@@ -22,9 +22,10 @@ export default function OfertaPage() {
     <>
       <PageHeader data={pageHeaders.oferta} breadcrumb="Oferta Educativa" />
 
-      <section className="section-y bg-paper-50">
-        <TiltCardScroll
-          header={
+      {/* ContainerScroll: the three levels on a panel that lays itself flat. */}
+      <section className="overflow-hidden bg-paper-50">
+        <ContainerScroll
+          titleComponent={
             <SectionHead
               label="Doce años"
               title="Un proyecto continuo"
@@ -33,22 +34,29 @@ export default function OfertaPage() {
             />
           }
         >
-          <div className="grid divide-rule sm:grid-cols-3 sm:divide-x">
+          <div className="grid size-full grid-rows-3 gap-2 md:grid-cols-3 md:grid-rows-1 md:gap-4">
             {programs.items.map((item) => (
-              <div key={item.index} className="p-8 text-center sm:p-10">
-                <span className="font-display text-[length:var(--text-2xl)] text-rule-strong">
-                  {item.index}
-                </span>
-                <h3 className="mt-6 font-display text-[length:var(--text-xl)]">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-[length:var(--text-label)] font-semibold uppercase tracking-[0.18em] text-accent-600">
-                  {item.grades}
-                </p>
+              <div key={item.index} className="relative overflow-hidden bg-ink-950">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.image.src}
+                  alt={item.image.alt}
+                  draggable={false}
+                  className="absolute inset-0 size-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/30 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                  <span className="text-[length:var(--text-label)] font-semibold uppercase tracking-[0.18em] text-white/75">
+                    {item.grades}
+                  </span>
+                  <h3 className="mt-2 font-display text-[length:var(--text-xl)] !text-white">
+                    {item.title}
+                  </h3>
+                </div>
               </div>
             ))}
           </div>
-        </TiltCardScroll>
+        </ContainerScroll>
       </section>
 
       <Programs withHead={false} />

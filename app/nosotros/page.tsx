@@ -28,13 +28,14 @@ export default function NosotrosPage() {
 
       <About cta={false} />
 
-      {/* Scroll-linked statement over the drifting line-work. */}
-      <section className="relative isolate overflow-hidden bg-paper-50 py-24 sm:py-32">
-        <BackgroundPaths />
+      {/* Scroll-linked statement over the flowing white line field. */}
+      <section className="relative isolate overflow-hidden bg-navy-900 py-28 sm:py-40">
+        <BackgroundPaths density={44} clear="center" />
         <div className="container-x relative">
           <ScrollTextHighlight
             text={statements.nosotros}
-            className="mx-auto max-w-4xl text-center text-[length:var(--text-3xl)] leading-[1.25]"
+            onDark
+            className="mx-auto max-w-4xl justify-center text-center text-[length:var(--text-3xl)] leading-[1.25]"
           />
         </div>
       </section>

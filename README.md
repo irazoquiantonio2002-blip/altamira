@@ -121,30 +121,49 @@ bundle inicial, y la portada es la única página que descarga Three.js.
 
 ## Animaciones
 
-Cada página tiene su propio efecto de firma, para que ninguna se sienta copia
-de otra. Todos viven en `components/ui/scroll/`.
+### Los cuatro componentes de referencia (21st.dev)
+
+Implementados **fieles al código original** — mismos valores de rotación,
+escala, recorte, resorte y rutas — con sólo lo imprescindible adaptado: fotos y
+textos reales, esquinas cuadradas y que funcionen a media página.
+
+| Componente | Archivo | Dónde |
+|---|---|---|
+| **ContainerScroll** — panel con bisel que llega inclinado 20° y se aplana | `ContainerScroll.tsx` | Inicio, Oferta |
+| **ScrollChoreography** — 4 fotos se cruzan, se apilan y una se abre a pantalla completa | `ScrollChoreography.tsx` | Inicio, Instalaciones |
+| **SmoothScrollHero** — imagen que se abre de un marco central con fotos en parallax y lista | `SmoothScrollHero.tsx` | Inicio |
+| **BackgroundPaths** — campo de líneas blancas con título letra por letra | `BackgroundPaths.tsx` | Inicio, Contacto (sección completa) · Nosotros y banda CTA (de fondo) |
+
+Adaptaciones concretas respecto al original:
+- `SmoothScrollHero` medía `window.scrollY` crudo, o sea, asumía ser lo primero
+  de la página. Aquí cada rango se mide desde donde empieza la sección, con los
+  mismos píxeles (1500 / 2000). El zoom es un `scale` sobre `<img>` en vez de
+  `background-size`, que en un móvil vertical dejaba la foto como una franja.
+- `BackgroundPathsSection` anima el título al entrar en pantalla, no al montar:
+  a media página la animación de montaje terminaba antes de que nadie llegara.
+- `BackgroundPaths` va en **blanco y más denso** (44–48 líneas por dirección en
+  vez de 36), sólo sobre fondos oscuros, y con `clear` las líneas se apartan de
+  debajo del texto para que se lea.
+
+### Efectos propios
 
 | Efecto | Componente | Dónde |
 |---|---|---|
-| Vuelo de cámara 3D en 3 actos | `CosmosHero` | Inicio |
-| Marco que se despliega del centro a pantalla completa | `ClipRevealBand` | Inicio, Oferta |
+| Vuelo de cámara 3D en 3 actos | `CosmosHero` | Inicio (no tocar) |
+| Marco que se despliega a pantalla completa | `ClipRevealBand` | Oferta |
 | Paneles que se expanden al pasar el cursor | `ExpandingPanels` | Inicio |
 | Tarjetas que se apilan al hacer scroll | `StackingCards` | Inicio |
 | Foto fija que cambia de imagen según el texto | `StickySwapGallery` | Nosotros |
 | Frase que se ilumina palabra por palabra | `ScrollTextHighlight` | Nosotros, Comunidad |
-| Líneas de fondo animadas | `BackgroundPaths` | Nosotros, Contacto, banda CTA |
-| Panel que se aplana al entrar (rotateX) | `TiltCardScroll` | Oferta |
 | Apertura circular de imagen | `CircularReveal` | Comunidad, Admisiones |
 | Scroll horizontal fijado | `Community` | Comunidad |
-| Coreografía de 4 fotos que convergen y se abren | `ScrollChoreography` | Instalaciones |
 | Galería con fotos a distinta velocidad | `ParallaxColumn` | Instalaciones |
 | Línea de tiempo que se dibuja con el scroll | `ScrollTimeline` | Admisiones |
 | Parallax de salida de la cabecera | `PageHeader` | las 6 páginas internas |
 | Marquee ligado a la velocidad del scroll | `Marquee` | Inicio, Nosotros, Comunidad |
 | Wordmark gigante que sube | `FooterWordmark` | las 7 páginas |
-| Reveals, text reveal, image reveal, count-up | `components/ui/` | todo el sitio |
 
-### Cuatro trampas resueltas (no reintroducir)
+### Cinco trampas resueltas (no reintroducir)
 
 1. **`clip-path: inset(100%)` en el elemento observado.** Un elemento recortado
    a área cero nunca intersecta, así que el IntersectionObserver que debería
@@ -168,6 +187,16 @@ de otra. Todos viven en `components/ui/scroll/`.
    puede delegar, así que siempre se evalúa contra el progreso real. Compila y
    no da error en consola: sólo se ve midiendo `getComputedStyle` en el punto
    final del efecto.
+5. **El parpadeo de `BackgroundPaths`.** En el original cada línea anima
+   `pathOffset` de 0 a 1 y pulsa su opacidad: cuando el trazo llega al final
+   de la curva se sale y la línea **desaparece**, luego reaparece. Con decenas
+   de líneas en temporizadores aleatorios (`Math.random()`, distintos en cada
+   carga) el fondo entero parpadeaba y a veces se veía bien y a veces mal. Ahora
+   cada curva tiene una línea base estática (nunca desaparece) y un destello que
+   la recorre con una animación CSS de `stroke-dashoffset`: `pathLength={1}` y
+   un patrón de guiones que suma exactamente 1 hacen el bucle continuo, sin
+   salto. Las velocidades salen de un hash fijo del índice, idénticas en cada
+   carga.
 
 ---
 

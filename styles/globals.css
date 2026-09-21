@@ -253,6 +253,36 @@
 }
 
 /* ============================================================
+   Background paths — a bright segment travelling along each line.
+   Every flow path has pathLength="1", and the dash pattern below sums to
+   exactly 1, so the dash wraps from the end of the line back to the start
+   with no jump. The base line underneath is static, so nothing ever
+   disappears — which is what the original's blinking came from.
+   ============================================================ */
+
+.path-flow {
+  stroke-dasharray: 0.24 0.76;
+  animation-name: path-flow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes path-flow {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .path-flow {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
    Hero — ported verbatim from the original static site so the
    scroll flythrough keeps the exact behaviour it had.
    ============================================================ */

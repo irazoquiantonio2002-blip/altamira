@@ -43,7 +43,7 @@ export default function ComunidadPage() {
         <div className="container-x">
           <ScrollTextHighlight
             text={statements.comunidad}
-            className="mx-auto max-w-4xl text-center text-[length:var(--text-3xl)] leading-[1.25]"
+            className="mx-auto max-w-4xl justify-center text-center text-[length:var(--text-3xl)] leading-[1.25]"
           />
         </div>
       </section>

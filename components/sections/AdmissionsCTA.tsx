@@ -9,8 +9,9 @@ import { BackgroundPaths } from "@/components/ui/scroll/BackgroundPaths";
  * The closing navy band. The one saturated surface on an otherwise white
  * site, so it reads as a deliberate stop rather than as decoration.
  *
- * White line-work drifts behind the copy, so the band that closes almost
- * every page is never a flat slab of colour.
+ * White line-work flows behind the copy, so the band that closes almost
+ * every page is never a flat slab of colour. The field clears out under
+ * the heading on the left, because the heading is white too.
  */
 export function AdmissionsCTA() {
   return (
@@ -18,7 +19,7 @@ export function AdmissionsCTA() {
       aria-labelledby="cta-title"
       className="relative isolate overflow-hidden bg-navy-700 py-20 sm:py-28"
     >
-      <BackgroundPaths light className="!opacity-30" />
+      <BackgroundPaths density={40} clear="left" />
       <div className="container-x relative">
         <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_auto] lg:gap-16">
           <div>

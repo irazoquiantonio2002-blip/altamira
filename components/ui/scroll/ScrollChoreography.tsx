@@ -4,169 +4,148 @@ import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
 
-type Corners = {
-  topLeft: { src: string; alt: string };
-  topRight: { src: string; alt: string };
-  bottomLeft: { src: string; alt: string };
-  bottomRight: { src: string; alt: string };
-};
+type Img = { src: string; alt: string };
 
 /**
- * Four photographs that travel across three acts as the section scrolls:
- * they swap corners diagonally, then collapse into a single stack at the
- * centre, then the top card opens out to fill the screen.
+ * ScrollChoreography — the 21st.dev component, kept faithful.
  *
- * The progress is run through a spring so the three acts hand off with
- * weight instead of switching on a hard keyframe boundary.
+ * Same three acts and the same numbers as the original: four 36vw × 24vh
+ * photographs at ±20vw / ±14vh around the centre swap corners diagonally
+ * (0 → 0.3), collapse into one stack (0.35 → 0.65), and the top-right card
+ * opens out to the full screen (0.7 → 0.9) while the others fade beneath it.
+ * The progress runs through the original spring (stiffness 400, damping 50,
+ * mass 1.2), which is what gives the hand-offs their weight.
  *
- * On phones the four cards would each be smaller than a thumbnail and the
- * choreography would read as noise, so the section degrades to a plain
- * stacked set of photos with the same content.
+ * Differences: phones get proportionally larger cards (36vw is ~135px on a
+ * 375px screen, too small to read as a photograph), an optional caption can
+ * fade in over the opened card, and under reduced motion the four photos
+ * simply sit in a grid.
  */
 export function ScrollChoreography({
   images,
   children,
-  height = "320vh",
 }: {
-  images: Corners;
-  /** Copy revealed inside the final, full-screen card. */
+  images: { topLeft: Img; topRight: Img; bottomLeft: Img; bottomRight: Img };
+  /** Optional caption shown once the last card has opened to full screen. */
   children?: ReactNode;
-  height?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const isMobile = useIsMobile(1024);
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  const p = useSpring(scrollYProgress, {
-    stiffness: 260,
-    damping: 44,
-    mass: 1.1,
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 400,
+    damping: 50,
+    mass: 1.2,
     restDelta: 0.001,
   });
 
-  const L = "-21vw";
-  const R = "21vw";
-  const T = "-15vh";
-  const B = "15vh";
+  const xLeft = isMobile ? "-24vw" : "-20vw";
+  const xRight = isMobile ? "24vw" : "20vw";
+  const yTop = isMobile ? "-13vh" : "-14vh";
+  const yBottom = isMobile ? "13vh" : "14vh";
+  const cardW = isMobile ? "44vw" : "36vw";
+  const cardH = isMobile ? "20vh" : "24vh";
 
-  // Act 1 (0 → .3) diagonal swap · Act 2 (.35 → .65) stack · Act 3 (.7 → .95) open.
-  const tlX = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [L, L, L, "0vw", "0vw"]);
-  const tlY = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [T, B, B, "0vh", "0vh"]);
-  const brX = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [R, R, R, "0vw", "0vw"]);
-  const brY = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [B, T, T, "0vh", "0vh"]);
-  const blX = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [L, L, L, "0vw", "0vw"]);
-  const blY = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [B, B, B, "0vh", "0vh"]);
-  const trX = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [R, R, R, "0vw", "0vw"]);
-  const trY = useTransform(p, [0, 0.3, 0.35, 0.65, 1], [T, T, T, "0vh", "0vh"]);
+  const steps = [0, 0.3, 0.35, 0.65, 1];
 
-  const heroW = useTransform(
-    p,
-    [0.65, 0.7, 0.92, 1],
-    ["38vw", "38vw", "100vw", "100vw"],
+  // Top Left → Bottom Left, then centre.
+  const tlX = useTransform(smoothProgress, steps, [xLeft, xLeft, xLeft, "0vw", "0vw"]);
+  const tlY = useTransform(smoothProgress, steps, [yTop, yBottom, yBottom, "0vh", "0vh"]);
+  // Bottom Right → Top Right, then centre.
+  const brX = useTransform(smoothProgress, steps, [xRight, xRight, xRight, "0vw", "0vw"]);
+  const brY = useTransform(smoothProgress, steps, [yBottom, yTop, yTop, "0vh", "0vh"]);
+  // Bottom Left stays, then centre.
+  const blX = useTransform(smoothProgress, steps, [xLeft, xLeft, xLeft, "0vw", "0vw"]);
+  const blY = useTransform(smoothProgress, steps, [yBottom, yBottom, yBottom, "0vh", "0vh"]);
+  // Top Right stays, then centre, then expands.
+  const trX = useTransform(smoothProgress, steps, [xRight, xRight, xRight, "0vw", "0vw"]);
+  const trY = useTransform(smoothProgress, steps, [yTop, yTop, yTop, "0vh", "0vh"]);
+
+  const heroWidth = useTransform(
+    smoothProgress,
+    [0.65, 0.7, 0.9, 1],
+    [cardW, cardW, "100vw", "100vw"],
   );
-  const heroH = useTransform(
-    p,
-    [0.65, 0.7, 0.92, 1],
-    ["26vh", "26vh", "100svh", "100svh"],
+  const heroHeight = useTransform(
+    smoothProgress,
+    [0.65, 0.7, 0.9, 1],
+    [cardH, cardH, "100vh", "100vh"],
   );
 
-  const underOpacity = useTransform(p, [0.74, 0.86], [1, 0]);
-  const copyOpacity = useTransform(p, [0.9, 1], [0, 1]);
+  const underImagesOpacity = useTransform(smoothProgress, [0.75, 0.85], [1, 0]);
+  const captionOpacity = useTransform(smoothProgress, [0.9, 1], [0, 1]);
 
-  const cardBase =
-    "absolute left-1/2 top-1/2 h-[26vh] w-[38vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-paper-100 will-change-transform";
-
-  if (reduced || isMobile) {
-    const all = [
-      images.topLeft,
-      images.topRight,
-      images.bottomLeft,
-      images.bottomRight,
-    ];
+  if (reduced) {
     return (
-      <section className="bg-ink-950">
-        <div className="grid grid-cols-2">
-          {all.map((img) => (
+      <section className="grid grid-cols-2">
+        {[images.topLeft, images.topRight, images.bottomLeft, images.bottomRight].map(
+          (img) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={img.src}
               src={img.src}
               alt={img.alt}
-              className="aspect-square w-full object-cover saturate-[.7]"
+              className="aspect-3/2 w-full object-cover"
             />
-          ))}
-        </div>
-        {children ? (
-          <div className="container-x py-16">{children}</div>
-        ) : null}
+          ),
+        )}
       </section>
     );
   }
 
+  const base =
+    "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-paper-100 shadow-2xl will-change-transform";
+  const size = { width: cardW, height: cardH };
+
   return (
-    <div ref={ref} style={{ height }} className="relative w-full">
-      <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-ink-950">
+    <div ref={containerRef} className="relative h-[300vh] w-full">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
-            style={{ x: tlX, y: tlY, opacity: underOpacity }}
-            className={`${cardBase} z-10`}
+            style={{ ...size, x: tlX, y: tlY, opacity: underImagesOpacity }}
+            className={`${base} z-10`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.topLeft.src}
-              alt={images.topLeft.alt}
-              className="size-full object-cover saturate-[.7]"
-            />
+            <img src={images.topLeft.src} alt={images.topLeft.alt} className="size-full object-cover" />
           </motion.div>
 
           <motion.div
-            style={{ x: brX, y: brY, opacity: underOpacity }}
-            className={`${cardBase} z-20`}
+            style={{ ...size, x: brX, y: brY, opacity: underImagesOpacity }}
+            className={`${base} z-20`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.bottomRight.src}
-              alt={images.bottomRight.alt}
-              className="size-full object-cover saturate-[.7]"
-            />
+            <img src={images.bottomRight.src} alt={images.bottomRight.alt} className="size-full object-cover" />
           </motion.div>
 
           <motion.div
-            style={{ x: blX, y: blY, opacity: underOpacity }}
-            className={`${cardBase} z-30`}
+            style={{ ...size, x: blX, y: blY, opacity: underImagesOpacity }}
+            className={`${base} z-30`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.bottomLeft.src}
-              alt={images.bottomLeft.alt}
-              className="size-full object-cover saturate-[.7]"
-            />
+            <img src={images.bottomLeft.src} alt={images.bottomLeft.alt} className="size-full object-cover" />
           </motion.div>
 
-          {/* The card that opens out at the end. */}
+          {/* The card that opens out to the full screen. */}
           <motion.div
-            style={{ x: trX, y: trY, width: heroW, height: heroH }}
-            className={`${cardBase} z-40 origin-center`}
+            style={{ x: trX, y: trY, width: heroWidth, height: heroHeight }}
+            className={`${base} z-40 origin-center`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.topRight.src}
-              alt={images.topRight.alt}
-              className="size-full object-cover saturate-[.7]"
-            />
-            <div className="photo-scrim" />
+            <img src={images.topRight.src} alt={images.topRight.alt} className="size-full object-cover" />
 
             {children ? (
               <motion.div
-                style={{ opacity: copyOpacity }}
+                style={{ opacity: captionOpacity }}
                 className="absolute inset-0 flex items-end"
               >
-                <div className="container-x w-full pb-16 sm:pb-24">
+                <div className="photo-scrim" />
+                <div className="container-x relative w-full pb-16 sm:pb-24">
                   {children}
                 </div>
               </motion.div>
@@ -177,3 +156,5 @@ export function ScrollChoreography({
     </div>
   );
 }
+
+export default ScrollChoreography;
