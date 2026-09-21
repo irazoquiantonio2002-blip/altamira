@@ -51,7 +51,7 @@ components/
              Programs · Community · Facilities · AdmissionsCTA · Contact
   ui/        Button · Reveal · TextReveal · ImageReveal · CountUp
              SectionLabel · Icons
-  ui/scroll/ los 12 efectos de scroll (ver tabla de Animaciones)
+  ui/scroll/ los 11 efectos de scroll (ver tabla de Animaciones)
   providers/ SmoothScroll (Lenis + ticker de GSAP)
 lib/
   site-data.ts            ← TODO el contenido, cifras, enlaces y contactos
