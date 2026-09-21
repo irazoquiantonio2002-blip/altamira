@@ -4,7 +4,7 @@ import { Marquee } from "@/components/sections/Marquee";
 import { About } from "@/components/sections/About";
 import { SectionHead } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
-import { ContainerScroll } from "@/components/ui/scroll/ContainerScroll";
+import { ClipRevealBand } from "@/components/ui/scroll/ClipRevealBand";
 import { ScrollChoreography } from "@/components/ui/scroll/ScrollChoreography";
 import { SmoothScrollHero } from "@/components/ui/scroll/SmoothScrollHero";
 import { BackgroundPathsSection } from "@/components/ui/scroll/BackgroundPaths";
@@ -14,9 +14,10 @@ import { pillars, programs } from "@/lib/site-data";
 
 /**
  * Home. The showcase page: around the original cosmos hero (untouched) it
- * carries all four scroll components the client asked for by name —
- * ContainerScroll, ScrollChoreography, the SmoothScrollHero parallax reveal
- * and BackgroundPaths — and routes into the inner pages.
+ * carries the image that opens out with its subtitle (ClipRevealBand),
+ * ScrollChoreography, the SmoothScrollHero parallax reveal and
+ * BackgroundPaths, and routes into the inner pages. ContainerScroll lives on
+ * the Oferta page.
  */
 
 const destinations = [
@@ -62,33 +63,20 @@ export default function Home() {
 
       <About />
 
-      {/* ① ContainerScroll — the tipped panel that lays itself flat. */}
-      <section className="overflow-hidden bg-paper-50">
-        <ContainerScroll
-          titleComponent={
-            <>
-              <p className="section-label justify-center">
-                <span aria-hidden="true" className="size-[5px] bg-accent-600" />
-                Cuerpo, corazón, inteligencia y voluntad
-              </p>
-              <h2 className="mt-6 font-display text-3xl sm:text-4xl">
-                Una educación que forma el carácter
-                <span className="mt-2 block text-5xl leading-none md:text-[6rem]">
-                  Formación Integral
-                </span>
-              </h2>
-            </>
-          }
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/img/hero/formacion-ajedrez.jpg"
-            alt="Alumnos de Altamira La Cima en una actividad de concentración"
-            draggable={false}
-            className="mx-auto size-full object-cover object-center"
-          />
-        </ContainerScroll>
-      </section>
+      {/* The photo opens out from a centred frame as you scroll and the
+          subtitle appears inside it. */}
+      <ClipRevealBand
+        src="/img/instalaciones.jpg"
+        alt="Vista aérea del campus de Colegio Altamira La Cima"
+      >
+        <span className="section-label !text-white/70">
+          <span aria-hidden="true" className="size-[5px] bg-accent-500" />
+          Campus La Cima
+        </span>
+        <p className="mt-4 max-w-2xl font-display text-[length:var(--text-3xl)] text-white">
+          Más de 10,000 m² en el corazón de Zapopan.
+        </p>
+      </ClipRevealBand>
 
       {/* ② ScrollChoreography — four photos swap, stack, and one opens out. */}
       <ScrollChoreography
