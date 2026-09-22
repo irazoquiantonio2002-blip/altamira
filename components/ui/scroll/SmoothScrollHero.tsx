@@ -11,6 +11,7 @@ import {
 } from "motion/react";
 import { useReducedMotion } from "@/lib/useMotionPrefs";
 import { useScrollValue } from "@/lib/useScrollValue";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 /**
  * SmoothScrollHero ("modern-hero") — the 21st.dev component, kept faithful.
@@ -152,7 +153,7 @@ function CenterImage({
       <motion.div style={reduced ? undefined : { scale }} className="size-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={image.src}
+          {...responsiveImg(image.src, "100vw")}
           alt={image.alt}
           className="size-full object-cover object-center"
         />
@@ -190,7 +191,7 @@ function ParallaxImg({ className, alt, src, start, end }: ParallaxShot) {
   return (
     <motion.img
       ref={ref}
-      src={src}
+      {...responsiveImg(src, "(max-width: 768px) 70vw, 40vw")}
       alt={alt}
       className={`relative z-10 ${className}`}
       style={reduced ? undefined : { transform: transformStyle, opacity }}

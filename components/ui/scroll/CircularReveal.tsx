@@ -8,6 +8,7 @@ import {
 } from "motion/react";
 import { useReducedMotion } from "@/lib/useMotionPrefs";
 import { useScrollValue } from "@/lib/useScrollValue";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 /**
  * The circular opening: a photo starts as a small disc in the middle of the
@@ -54,7 +55,7 @@ export function CircularReveal({
       <section className="relative isolate flex min-h-[70svh] items-center overflow-hidden bg-ink-950">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={src}
+          {...responsiveImg(src, "100vw")}
           alt={alt}
           className="absolute inset-0 size-full object-cover saturate-[.7]"
         />
@@ -74,7 +75,7 @@ export function CircularReveal({
           <motion.div style={{ scale }} className="absolute inset-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={src}
+              {...responsiveImg(src, "100vw")}
               alt={alt}
               className="size-full object-cover saturate-[.7]"
             />

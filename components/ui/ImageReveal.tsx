@@ -22,22 +22,17 @@ type ImageRevealProps = {
   scrim?: boolean;
 };
 
-const CLIPPED = "inset(100% 0% 0% 0%)";
-const OPEN = "inset(0% 0% 0% 0%)";
-
 /**
- * A photo in the house treatment: a clip-path wipe on entry, gentle parallax
- * on scroll, and the shared dark scrim so every image on the page reads as
- * one system (§4).
+ * A photo in the house treatment: gentle parallax on scroll, a slow settle
+ * out of a slight overscale, and the shared dark scrim so every image on the
+ * page reads as one system (§4).
  *
- * IMPORTANT — why the clip is on an inner element rather than on the observed
- * one: `clip-path: inset(100% …)` collapses an element to zero visible area,
- * and IntersectionObserver measures the *clipped* box. Observing the clipped
- * element therefore deadlocks — it can never report as intersecting, so the
- * reveal never fires and the photo stays invisible forever. (`getBoundingClientRect`
- * still reports the full box, which makes this look like it should work.)
- * The outer element is never clipped and is what gets observed; the inner one
- * carries the wipe.
+ * The photograph itself is never hidden or masked. An earlier version wiped
+ * each one in with a `clip-path` as it entered the viewport, which uncovered
+ * the picture a band at a time and read as an image still downloading rather
+ * than as an effect. Photographs here are shown whole from the first frame;
+ * the motion is the frame drifting and the picture settling, never the
+ * picture arriving in pieces.
  *
  * Parallax is reduced on phones (§8) — the full range there reads as drift
  * rather than depth, and costs frames on the devices least able to spare them.
@@ -73,33 +68,25 @@ export function ImageReveal({
       <motion.div
         data-reveal
         className="relative size-full"
-        initial={{ clipPath: CLIPPED }}
-        animate={{ clipPath: shown ? OPEN : CLIPPED }}
-        transition={{ duration: reduced ? 0 : 1.2, ease: EASE_OUT_EXPO }}
+        style={range ? { y } : undefined}
+        initial={{ scale: 1.18 }}
+        animate={{ scale: shown ? 1 : 1.18 }}
+        transition={{ duration: reduced ? 0 : 1.4, ease: EASE_OUT_EXPO }}
       >
-        <motion.div
-          data-reveal
-          className="relative size-full"
-          style={range ? { y } : undefined}
-          initial={{ scale: 1.18 }}
-          animate={{ scale: shown ? 1 : 1.18 }}
-          transition={{ duration: reduced ? 0 : 1.4, ease: EASE_OUT_EXPO }}
-        >
-          <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            sizes={sizes}
-            priority={priority}
-            loading={priority ? undefined : "lazy"}
-            // One de-saturation pass on every photo, so the imagery reads
-            // as one system rather than as assorted stock.
-            className={`size-full object-cover saturate-[.8] ${imgClassName}`}
-          />
-        </motion.div>
-        {scrim ? <div className="photo-scrim" /> : null}
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          priority={priority}
+          loading={priority ? undefined : "lazy"}
+          // One de-saturation pass on every photo, so the imagery reads
+          // as one system rather than as assorted stock.
+          className={`size-full object-cover saturate-[.8] ${imgClassName}`}
+        />
       </motion.div>
+      {scrim ? <div className="photo-scrim" /> : null}
     </div>
   );
 }

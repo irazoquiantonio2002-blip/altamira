@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { LoaderDismiss } from "@/components/providers/LoaderDismiss";
+import { BrandLoader } from "@/components/ui/BrandLoader";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { site, contact, socials } from "@/lib/site-data";
@@ -99,6 +101,8 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
+        <BrandLoader />
+        <LoaderDismiss />
         <SmoothScroll />
         <Navbar />
         <main id="contenido">{children}</main>

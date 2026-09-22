@@ -15,6 +15,41 @@ import { loadGsap } from "@/lib/gsap";
 export function SmoothScroll() {
   const reduced = useReducedMotion();
 
+  /* Marks the document while a scroll is in flight.
+   *
+   * Some decorative animations are far cheaper to hold still for the length
+   * of a scroll than to keep running through it. The line fields are the
+   * case that forced this: each one keeps ~88 SVG strokes animating, and an
+   * active animation on that many elements makes the browser restyle and
+   * re-raster the whole field every frame. Measured while scrolling
+   * /nosotros, that alone took the 95th-percentile frame from 17ms to
+   * 50-70ms.
+   *
+   * `animation-play-state` freezes in place and resumes from the same
+   * point, so nothing restarts or jumps. The frozen drift is invisible
+   * during a scroll — the field travels up the screen far faster than the
+   * light travels along it — and it starts again the moment the page
+   * settles.
+   *
+   * Deliberately outside the effect below: this has to work whether or not
+   * Lenis is running, including under reduced motion and before the smooth
+   * scroll chunk has loaded. */
+  useEffect(() => {
+    const el = document.documentElement;
+    let timer: number | undefined;
+    const onScroll = () => {
+      el.classList.add("is-scrolling");
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => el.classList.remove("is-scrolling"), 140);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+      el.classList.remove("is-scrolling");
+    };
+  }, []);
+
   useEffect(() => {
     if (reduced) return;
 

@@ -61,6 +61,27 @@ export function CosmosHero() {
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+
+      /* The hero's real drawing box, measured from the element itself.
+         Everything below sizes off this instead of `window.inner*`.
+         On a desktop the two agree, but on a phone they do not: the pin is
+         `100svh` (the viewport with the browser's toolbars showing) while
+         `window.innerHeight` is the taller layout viewport. Sizing the
+         renderer to the window while the canvas box is `100svh` gives the
+         camera the wrong aspect ratio, so the scene was drawn for a taller
+         screen and the visible part came out stretched and cropped — the
+         hero "cut off" on mobile. `clientWidth` likewise excludes the
+         desktop scrollbar the window width includes. */
+      const box = () => ({
+        w: pinEl.clientWidth || window.innerWidth,
+        h: pinEl.clientHeight || window.innerHeight,
+      });
+
+      /* Landscape or portrait, by the hero's own shape rather than a width
+         breakpoint — a tablet held upright is wider than 768px and still
+         portrait. Both the icon's ridge point and the backdrop push-in
+         depend on it. */
+      let wideScreen = box().w / box().h >= 1.4;
       const isNarrow = window.innerWidth < 768;
       const totalStages = stages.length;
 
@@ -306,8 +327,7 @@ export function CosmosHero() {
          once at load goes stale when the window is resized. Standard
          landscape desktops (16:10, 16:9) keep the wide-screen point. */
       function pickIconAnchor() {
-        const wide = window.innerWidth / window.innerHeight >= 1.4;
-        iconAnchor3D = wide
+        iconAnchor3D = wideScreen
           ? new THREE.Vector3(280, -150, -50)
           : new THREE.Vector3(70, -120, -50);
         // Measured from the camera's starting position, so the icon's scale
@@ -323,12 +343,8 @@ export function CosmosHero() {
           scene = new THREE.Scene();
           scene.fog = new THREE.FogExp2(0x04070d, 0.00028);
 
-          camera = new THREE.PerspectiveCamera(
-            75,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            2000,
-          );
+          const { w: boxW, h: boxH } = box();
+          camera = new THREE.PerspectiveCamera(75, boxW / boxH, 0.1, 2000);
           camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z);
 
           renderer = new THREE.WebGLRenderer({
@@ -336,7 +352,7 @@ export function CosmosHero() {
             antialias: true,
             alpha: true,
           });
-          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setSize(boxW, boxH);
           renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
           renderer.toneMapping = THREE.ACESFilmicToneMapping;
           renderer.toneMappingExposure = 0.5;
@@ -485,7 +501,15 @@ export function CosmosHero() {
            push-in through the three acts, darkening as it goes so it reads
            as diving into the photo, not just a bigger crop of it. */
         if (backdropImg)
-          backdropImg.style.transform = `scale(${1 + progress * 2.2})`;
+          /* The push-in is gentler on portrait screens. `object-fit: cover`
+             already magnifies this landscape photo about three times to fill
+             a phone, so stacking another 3.2× on top left nothing on screen
+             but a featureless crop — the hero read as a broken, cut-off
+             image. Landscape screens, where `cover` barely crops, keep the
+             full dive. */
+          backdropImg.style.transform = `scale(${
+            1 + progress * (wideScreen ? 2.2 : 0.8)
+          })`;
         if (backdropEl)
           backdropEl.style.setProperty(
             "--dark",
@@ -541,8 +565,9 @@ export function CosmosHero() {
             const projected = iconAnchor3D.clone().project(camera);
             const dist = camera.position.distanceTo(iconAnchor3D);
             const scale = iconBaseDist / dist;
-            studyIcon.style.left = `${(projected.x * 0.5 + 0.5) * window.innerWidth}px`;
-            studyIcon.style.top = `${(-projected.y * 0.5 + 0.5) * window.innerHeight}px`;
+            const { w: vw, h: vh } = box();
+            studyIcon.style.left = `${(projected.x * 0.5 + 0.5) * vw}px`;
+            studyIcon.style.top = `${(-projected.y * 0.5 + 0.5) * vh}px`;
             studyIcon.style.transform = `translate(-50%, -100%) scale(${scale})`;
             studyIcon.style.visibility = "visible";
           } else {
@@ -590,13 +615,24 @@ export function CosmosHero() {
       animate();
 
       let resizeTimer: number | undefined;
+      let lastW = box().w;
       const onResize = () => {
+        /* Phones fire `resize` every time the address bar slides away
+           mid-scroll. Rebuilding the projection and refreshing every
+           ScrollTrigger on those events is what made scrolling the hero
+           stutter on mobile. The pin is sized in `svh`, so the toolbar does
+           not change the hero's box at all: only a width change is a real
+           reshape worth reacting to. */
+        if (box().w === lastW) return;
+        lastW = box().w;
+        wideScreen = box().w / box().h >= 1.4;
         window.clearTimeout(resizeTimer);
         resizeTimer = window.setTimeout(() => {
           if (!camera || !renderer) return;
-          camera.aspect = window.innerWidth / window.innerHeight;
+          const { w, h } = box();
+          camera.aspect = w / h;
           camera.updateProjectionMatrix();
-          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setSize(w, h);
           // The screen may have changed shape: re-pick the icon's point.
           if (studyIcon) pickIconAnchor();
           ScrollTrigger.refresh();

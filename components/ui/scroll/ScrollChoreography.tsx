@@ -10,6 +10,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 type Img = { src: string; alt: string };
 
@@ -186,7 +187,7 @@ export function ScrollChoreography({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={img.src}
-                src={img.src}
+                {...responsiveImg(img.src, "(max-width: 768px) 60vw, 30vw")}
                 alt={img.alt}
                 className="aspect-[4/5] w-full object-cover"
               />
@@ -258,7 +259,12 @@ function Card({
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-paper-100 shadow-[0_30px_60px_-30px_rgba(5,12,30,0.45)] will-change-transform"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={img.src} alt={img.alt} className="size-full object-cover" draggable={false} />
+      <img
+        {...responsiveImg(img.src, "(max-width: 768px) 70vw, 40vw")}
+        alt={img.alt}
+        className="size-full object-cover"
+        draggable={false}
+      />
     </motion.div>
   );
 }
@@ -309,7 +315,12 @@ function Hero({
     >
       <motion.div style={{ scale: imgScale }} className="size-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={img.src} alt={img.alt} className="size-full object-cover" draggable={false} />
+        <img
+          {...responsiveImg(img.src, "100vw")}
+          alt={img.alt}
+          className="size-full object-cover"
+          draggable={false}
+        />
       </motion.div>
 
       {children ? (

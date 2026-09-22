@@ -113,11 +113,28 @@ export const GalleryContainer = ({
   children,
   className = "",
   style,
+  scaleBoost = 1,
   ...props
-}: HTMLMotionProps<"div">) => {
+}: HTMLMotionProps<"div"> & {
+  /**
+   * Multiplies the wall’s scale at both ends of the move.
+   *
+   * Three columns of 16:9 photographs make a block about 1.8 times wider
+   * than it is tall. On a wide screen that block fills the stage; on a
+   * phone the same block is only a few hundred pixels tall and sits in a
+   * sea of empty page. Scaling the wall past the viewport’s width — the
+   * overflow is clipped by the sticky stage — restores photographs you can
+   * actually see, without cropping any of them.
+   */
+  scaleBoost?: number;
+}) => {
   const { scrollYProgress } = useContainerScrollContext();
   const rotateX = useScrollValue(scrollYProgress, [0, 0.5], [75, 0]);
-  const scale = useScrollValue(scrollYProgress, [0.5, 0.9], [1.2, 1]);
+  const scale = useScrollValue(
+    scrollYProgress,
+    [0.5, 0.9],
+    [1.2 * scaleBoost, scaleBoost],
+  );
 
   return (
     <motion.div

@@ -20,6 +20,7 @@ import { Reveal } from "@/components/ui/Reveal";
  */
 export function Community() {
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   const reduced = useReducedMotion();
@@ -50,7 +51,16 @@ export function Community() {
             trigger: section,
             start: "top top",
             end: () => `+=${distance()}`,
-            pin: true,
+            // Pin the inner wrapper, never the <section> itself. To pin an
+            // element GSAP wraps it in a `.pin-spacer` div, which reparents
+            // it. When the pinned element is the section — a direct child of
+            // the React-rendered <main> — React later tries
+            // `main.removeChild(section)` on navigation, the section is no
+            // longer main's child, and the whole app dies with
+            // "Failed to execute 'removeChild' on 'Node'". Pinning a node
+            // React never has to remove directly keeps the spacer inside the
+            // section, where it is harmless.
+            pin: pinRef.current,
             scrub: 0.9,
             invalidateOnRefresh: true,
             anticipatePin: 1,
@@ -73,7 +83,7 @@ export function Community() {
       id="comunidad"
       className="overflow-hidden bg-paper-50 py-20 lg:py-0"
     >
-      <div className="lg:flex lg:h-[100svh] lg:flex-col lg:justify-center">
+      <div ref={pinRef} className="lg:flex lg:h-[100svh] lg:flex-col lg:justify-center">
         <div className="container-x">
           <Reveal direction="up">
             <SectionHead

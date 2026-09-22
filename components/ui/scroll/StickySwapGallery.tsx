@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
 import { EASE_OUT_EXPO } from "@/lib/animations";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 export type SwapItem = {
   index: string;
@@ -51,7 +52,7 @@ export function StickySwapGallery({ items }: { items: SwapItem[] }) {
             <article key={item.index} className="border-b border-rule py-10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={item.image.src}
+                {...responsiveImg(item.image.src, "100vw")}
                 alt={item.image.alt}
                 className="aspect-3/2 w-full object-cover saturate-[.8]"
               />
@@ -99,7 +100,7 @@ export function StickySwapGallery({ items }: { items: SwapItem[] }) {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={item.image.src}
+                      {...responsiveImg(item.image.src, "(max-width: 1024px) 100vw, 50vw")}
                       alt={item.image.alt}
                       className="size-full object-cover saturate-[.8]"
                     />

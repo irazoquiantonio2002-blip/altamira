@@ -152,7 +152,10 @@ export function BackgroundPaths({
     <div
       ref={ref}
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 overflow-hidden ${
+      /* `transform-gpu` puts the field on its own compositing layer.
+         Without it the browser re-rasters all ~176 strokes as the section
+         scrolls past, which costs about as much as the animation itself. */
+      className={`pointer-events-none absolute inset-0 transform-gpu overflow-hidden ${
         clear ? CLEAR_MASKS[clear] : ""
       } ${className}`}
     >

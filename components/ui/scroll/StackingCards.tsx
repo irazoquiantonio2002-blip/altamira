@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { motion, useScroll, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/useMotionPrefs";
 import { useScrollValue } from "@/lib/useScrollValue";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 export type StackCard = {
   href: string;
@@ -94,7 +95,7 @@ function Card({
           <div className="relative overflow-hidden bg-ink-950">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={card.image.src}
+              {...responsiveImg(card.image.src, "(max-width: 768px) 100vw, 50vw")}
               alt={card.image.alt}
               className="size-full object-cover saturate-[.8] transition-transform duration-[1200ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.04]"
             />

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { EASE_OUT_EXPO } from "@/lib/animations";
+import { responsiveImg } from "@/lib/responsiveImg";
 
 export type Panel = {
   index: string;
@@ -47,7 +48,7 @@ export function ExpandingPanels({ panels }: { panels: Panel[] }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={panel.image.src}
+                {...responsiveImg(panel.image.src, "(max-width: 1024px) 100vw, 60vw")}
                 alt={panel.image.alt}
                 className={`absolute inset-0 size-full object-cover saturate-[.7] transition-transform duration-[1200ms] ease-[cubic-bezier(.16,1,.3,1)] ${
                   isActive ? "scale-100" : "scale-110"
@@ -117,7 +118,7 @@ export function ExpandingPanels({ panels }: { panels: Panel[] }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={panel.image.src}
+              {...responsiveImg(panel.image.src, "100vw")}
               alt={panel.image.alt}
               className="absolute inset-0 -z-10 size-full object-cover saturate-[.7]"
             />

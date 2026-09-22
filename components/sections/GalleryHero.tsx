@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useReducedMotion } from "@/lib/useMotionPrefs";
+import { useIsMobile, useReducedMotion } from "@/lib/useMotionPrefs";
 import { Button } from "@/components/ui/Button";
 import {
   ContainerAnimated,
@@ -72,6 +72,7 @@ export function GalleryHero({
   columns: GalleryColumn[];
 }) {
   const reduced = useReducedMotion();
+  const isMobile = useIsMobile();
 
   return (
     <section aria-labelledby="gallery-hero-title" className="relative bg-paper">
@@ -136,8 +137,14 @@ export function GalleryHero({
         </div>
       ) : (
         <ContainerScroll className="relative h-[350vh]">
-          <ContainerSticky className="h-svh">
-            <GalleryContainer>
+          {/* `items-center` and the auto height below `lg` keep the wall in
+              the middle of the stage instead of pinned to the top with half
+              a screen of blank page under it. */}
+          <ContainerSticky className="flex h-svh items-center">
+            <GalleryContainer
+              className="h-auto lg:h-full"
+              scaleBoost={isMobile ? 1.9 : 1}
+            >
               {columns.map((col) => (
                 <GalleryCol
                   key={col.photos[0].src}

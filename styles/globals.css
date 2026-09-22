@@ -277,12 +277,142 @@
   }
 }
 
+/* Held still while the page is scrolling — see SmoothScroll. Pausing keeps
+   the position, so the light picks up where it left off instead of
+   restarting. */
+:root.is-scrolling .path-flow {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .path-flow {
     animation: none !important;
   }
 }
 
+/* ============================================================
+   Loading screen — the brand mark drawing itself.
+   ============================================================ */
+
+.brand-loader {
+  position: fixed;
+  inset: 0;
+  /* Above the navbar, which sits at z-100. */
+  z-index: 300;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(2rem, 5vh, 3.25rem);
+  background: var(--color-paper);
+  transition: opacity 700ms ease;
+}
+
+.brand-loader.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Out of the layer tree once the fade has played, so nothing keeps
+   compositing a full-screen surface for the rest of the visit. */
+.brand-loader.is-gone {
+  display: none;
+}
+
+.brand-loader__mark {
+  width: min(76vw, 26rem);
+}
+
+.brand-loader__mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* The drawn outline rides on the edge of each shape, so half its width
+     falls outside the exported viewBox. */
+  overflow: visible;
+}
+
+/* Two passes per shape: the outline is drawn first, then the fill arrives
+   behind the finished line. `pathLength="1"` (set when the file is inlined)
+   is what lets one dash length draw paths of very different real lengths. */
+.brand-loader__mark path {
+  fill: var(--color-navy-700);
+  fill-opacity: 0;
+  stroke: var(--color-navy-700);
+  stroke-width: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    brand-draw 1750ms cubic-bezier(0.65, 0, 0.35, 1) forwards,
+    brand-ink 800ms ease-out forwards;
+  animation-delay: calc(var(--i, 0) * 115ms),
+    calc(var(--i, 0) * 115ms + 1200ms);
+}
+
+@keyframes brand-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes brand-ink {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+.brand-loader__spinner {
+  width: 26px;
+  height: 26px;
+  transform-origin: 50% 50%;
+  animation: brand-spin 760ms linear infinite;
+}
+
+.brand-loader__track,
+.brand-loader__arc {
+  fill: none;
+  stroke-width: 2;
+}
+
+.brand-loader__track {
+  stroke: color-mix(in srgb, var(--color-navy-700) 16%, transparent);
+}
+
+/* A quarter of the ring, travelling round it. The circle carries
+   `pathLength="1"` in the markup, so the dash pair adds up to the whole
+   ring whatever its real circumference. */
+.brand-loader__arc {
+  stroke: var(--color-navy-700);
+  stroke-linecap: round;
+  stroke-dasharray: 0.26 0.74;
+}
+
+@keyframes brand-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reduced motion: the mark is simply there, and the wheel becomes a quiet
+   pulse rather than a spin. */
+@media (prefers-reduced-motion: reduce) {
+  .brand-loader__mark path {
+    fill-opacity: 1;
+    stroke: none;
+    animation: none;
+  }
+
+  .brand-loader__spinner {
+    animation: brand-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes brand-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+}
 /* ============================================================
    Hero — ported verbatim from the original static site so the
    scroll flythrough keeps the exact behaviour it had.
@@ -310,6 +440,17 @@
   object-fit: cover;
   transform-origin: center center;
   will-change: transform;
+}
+
+/* A portrait screen crops this landscape photo to a narrow vertical slice.
+   Centred, that slice lands on empty felt and the edge of a folder — a pale
+   rectangle with hard edges that reads as a broken image rather than a
+   backdrop. The notebook and pen sit in the photo's left third, so portrait
+   crops are anchored there and keep the subject. */
+@media (max-aspect-ratio: 7 / 5) {
+  .hero__backdrop img {
+    object-position: 26% center;
+  }
 }
 
 .hero__backdrop::after {
