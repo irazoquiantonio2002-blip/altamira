@@ -5,7 +5,7 @@ import { SectionHead } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { MapPin, Mail, Phone, WhatsApp } from "@/components/ui/Icons";
-import { CircularReveal } from "@/components/ui/scroll/CircularReveal";
+import { ClipRevealBand } from "@/components/ui/scroll/ClipRevealBand";
 import { ScrollTimeline } from "@/components/ui/scroll/ScrollTimeline";
 import { admissionSteps, contact, pageHeaders } from "@/lib/site-data";
 
@@ -20,20 +20,38 @@ export default function AdmisionesPage() {
     <>
       <PageHeader data={pageHeaders.admisiones} breadcrumb="Admisiones" />
 
-      <CircularReveal
+      {/* The photograph opens out of a centred frame and the invitation
+          arrives with it. This block used to be a circle expanding over
+          three screens of scrolling to deliver one line of copy; it is now
+          shorter than a page and carries the two actions the whole page
+          exists for, so the reader can act without reaching the bottom. */}
+      <ClipRevealBand
         src="/img/hero/campus-backdrop.jpg"
         alt="Campus de Colegio Altamira La Cima"
+        height="175vh"
+        mobileHeight="135vh"
       >
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="section-label justify-center !text-white/70">
-            <span aria-hidden="true" className="size-[5px] bg-accent-500" />
-            Admisiones abiertas
-          </span>
-          <p className="mt-5 font-display text-[length:var(--text-3xl)] text-white">
-            El primer paso es conocernos.
-          </p>
+        <span className="section-label !text-white/70">
+          <span aria-hidden="true" className="size-[5px] bg-accent-500" />
+          Admisiones abiertas
+        </span>
+        <p className="mt-4 max-w-2xl font-display text-[length:var(--text-3xl)] text-white">
+          El primer paso es conocernos.
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button href="/contacto" variant="light" size="lg">
+            Agenda tu cita
+          </Button>
+          <Button
+            href={contact.whatsapp.href}
+            variant="quiet"
+            size="lg"
+            arrow={false}
+          >
+            WhatsApp
+          </Button>
         </div>
-      </CircularReveal>
+      </ClipRevealBand>
 
       {/* Process — numbered rows, one per step. */}
       <section className="section-y bg-paper">

@@ -11,35 +11,40 @@ import { useReducedMotion } from "@/lib/useMotionPrefs";
 /**
  * How the drawer arrives and leaves.
  *
- * The panel itself only fades. It covers the page edge to edge in the same
- * paper white the page already is, so anything more elaborate on the panel —
- * a wipe, a slide — would be a full-viewport repaint every frame to show a
- * white rectangle moving over white. The motion that reads is the content's:
- * the rows rise in sequence behind the fade, which is what makes the menu feel
- * like it is being laid out rather than switched on.
+ * The panel slides in from the right, background and all, and the rows are
+ * dealt out once it holds most of the screen. An earlier version only faded
+ * the panel and animated the rows, on the reasoning that white sliding over
+ * white would be invisible - which was wrong: the page underneath is not
+ * blank, so what reads is the page being covered, its edge advancing across
+ * the screen.
  *
- * Leaving is deliberately faster than arriving, and the rows go in reverse, so
- * the menu gets out of the way instead of playing an outro.
+ * `x` is a transform, so the whole panel travels on the compositor and the
+ * slide costs nothing per frame however much is inside it.
+ *
+ * Leaving is deliberately faster than arriving, and the rows go in reverse,
+ * so the menu gets out of the way instead of playing an outro.
  */
 const panelVariants: Variants = {
   closed: {
-    opacity: 0,
+    x: "100%",
     pointerEvents: "none",
     transition: {
-      duration: 0.26,
+      duration: 0.34,
       ease: EASE_IN_OUT_QUART,
-      staggerChildren: 0.025,
+      staggerChildren: 0.02,
       staggerDirection: -1,
     },
   },
   open: {
-    opacity: 1,
+    x: "0%",
     pointerEvents: "auto",
     transition: {
-      duration: 0.32,
+      duration: 0.56,
       ease: EASE_OUT_EXPO,
       staggerChildren: 0.055,
-      delayChildren: 0.1,
+      // The rows start once the panel holds most of the screen, so the two
+      // moves read one after the other rather than on top of each other.
+      delayChildren: 0.3,
     },
   },
 };
@@ -59,8 +64,8 @@ const rowVariants: Variants = {
 
 /** Reduced motion: the drawer is simply there, and simply gone. */
 const panelInstant: Variants = {
-  closed: { opacity: 0, pointerEvents: "none", transition: { duration: 0 } },
-  open: { opacity: 1, pointerEvents: "auto", transition: { duration: 0 } },
+  closed: { x: "100%", pointerEvents: "none", transition: { duration: 0 } },
+  open: { x: "0%", pointerEvents: "auto", transition: { duration: 0 } },
 };
 
 /**

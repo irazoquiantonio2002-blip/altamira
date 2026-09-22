@@ -421,7 +421,15 @@
 .hero__pin {
   position: relative;
   width: 100%;
-  height: 100svh;
+  /* `lvh`, not `svh`. `svh` is the viewport with the phone’s toolbars
+     showing; the moment the address bar retracts mid-scroll the visible
+     area grows to `lvh` and a pinned `100svh` hero no longer reaches the
+     bottom — a white strip of the next section appears under it. `lvh` is
+     the tallest the viewport ever gets, so the hero covers the screen in
+     both states. When the toolbar is showing the hero simply extends a
+     little past the fold, which is invisible: its content is centred. */
+  height: 100vh;
+  height: 100lvh;
   min-height: 560px;
   overflow: hidden;
   background: var(--color-ink-950);

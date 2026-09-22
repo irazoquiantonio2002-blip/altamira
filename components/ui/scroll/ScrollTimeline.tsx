@@ -80,7 +80,12 @@ function Step({
   const markerBg = useTransform(lit, [0, 1], ["#ffffff", "#1a57e6"]);
   const markerBorder = useTransform(lit, [0, 1], ["#c9ced9", "#1a57e6"]);
   const markerText = useTransform(lit, [0, 1], ["#5d6675", "#ffffff"]);
-  const copyOpacity = useTransform(lit, [0, 1], [0.45, 1]);
+  // 0.82, not 0.45. These four steps are what the page is for, and at 45%
+  // the ones the scroll line had not reached yet read as disabled — the
+  // reader could not take in the process at a glance. Lighting a step is
+  // an accent on something already legible, not the thing that makes it
+  // legible; the marker filling with blue still carries the progression.
+  const copyOpacity = useTransform(lit, [0, 1], [0.82, 1]);
   const copyX = useTransform(lit, [0, 1], [-10, 0]);
 
   return (

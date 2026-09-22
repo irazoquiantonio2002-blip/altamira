@@ -150,12 +150,15 @@ export function ScrollChoreography({
   images,
   heading,
   children,
+  compact = false,
 }: {
   images: { topLeft: Img; topRight: Img; bottomLeft: Img; bottomRight: Img };
   /** Headline shown in the middle of the opening composition. */
   heading?: { label: string; title: string };
   /** Optional caption shown once the top photo has opened to full screen. */
   children?: ReactNode;
+  /** Shorten the scroll track on phones. See the track below. */
+  compact?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -202,7 +205,16 @@ export function ScrollChoreography({
   const cardImages = [images.topLeft, images.bottomLeft, images.bottomRight];
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] w-full">
+    <div
+      ref={containerRef}
+      /* `compact` shortens the track on phones only — same choreography,
+         less dragging. Opt-in for the same reason as ClipRevealBand: it
+         depends on how much scrolling the rest of the page already asks
+         for. */
+      className={`relative w-full ${
+        compact && isMobile ? "h-[175vh]" : "h-[300vh]"
+      }`}
+    >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-paper">
         {heading ? <PinnedHeadline heading={heading} p={p} e={e} /> : null}
 

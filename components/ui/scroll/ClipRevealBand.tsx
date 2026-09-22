@@ -28,12 +28,20 @@ export function ClipRevealBand({
   alt,
   children,
   height = "260vh",
+  mobileHeight,
 }: {
   src: string;
   alt: string;
   children?: ReactNode;
   /** Total scroll distance the effect plays over. */
   height?: string;
+  /**
+   * Track height below `md`. Opt-in, because the right length depends on
+   * what else the page asks the reader to scroll through: on a page built
+   * out of several scroll effects, 260vh of dragging for one of them is a
+   * lot on a phone. Pages that leave it unset keep the full travel.
+   */
+  mobileHeight?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -74,7 +82,11 @@ export function ClipRevealBand({
   }
 
   return (
-    <div ref={ref} style={{ height }} className="relative w-full">
+    <div
+      ref={ref}
+      style={{ height: isMobile && mobileHeight ? mobileHeight : height }}
+      className="relative w-full"
+    >
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-paper">
         <motion.div
           style={{ clipPath }}

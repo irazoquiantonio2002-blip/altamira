@@ -601,7 +601,13 @@ export function CosmosHero() {
         trigger = ScrollTrigger.create({
           trigger: pinEl,
           start: "top top",
-          end: `+=${(totalStages - 1) * 100}%`,
+          /* A phone shows far less of the page at once, so the same three
+             acts spread over two full screens of scrolling feel like work.
+             Same choreography, roughly half the travel. Read through a
+             function so `invalidateOnRefresh` re-measures it after a
+             rotation rather than keeping the value from load. */
+          end: () =>
+            `+=${(totalStages - 1) * (window.innerWidth < 768 ? 55 : 100)}%`,
           pin: true,
           scrub: 0.6,
           invalidateOnRefresh: true,
@@ -620,9 +626,9 @@ export function CosmosHero() {
         /* Phones fire `resize` every time the address bar slides away
            mid-scroll. Rebuilding the projection and refreshing every
            ScrollTrigger on those events is what made scrolling the hero
-           stutter on mobile. The pin is sized in `svh`, so the toolbar does
-           not change the hero's box at all: only a width change is a real
-           reshape worth reacting to. */
+           stutter on mobile. The pin is sized in `lvh`, which does not move
+           with the toolbar, so the hero's box is unchanged by those events:
+           only a width change is a real reshape worth reacting to. */
         if (box().w === lastW) return;
         lastW = box().w;
         wideScreen = box().w / box().h >= 1.4;

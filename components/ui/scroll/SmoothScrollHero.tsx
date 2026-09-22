@@ -84,12 +84,17 @@ function Hero({
   // Document-space top of the section, kept current as the layout above it
   // changes (fonts, images and the pinned hero all shift it after load).
   const top = useRef(0);
+  // How much scrolling the effect plays over: the track’s height minus the
+  // screen it is read through. Measured rather than hard-coded so the
+  // height below can vary by breakpoint and every range here follows it.
+  const span = useRef(SECTION_HEIGHT);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const measure = () => {
       top.current = el.getBoundingClientRect().top + window.scrollY;
+      span.current = Math.max(400, el.offsetHeight - window.innerHeight);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -104,10 +109,12 @@ function Hero({
   return (
     <div
       ref={ref}
-      style={{ height: `calc(${SECTION_HEIGHT}px + 100vh)` }}
-      className="relative w-full"
+      /* The whole effect took three and a half screens of scrolling on a
+         phone, which is a long way to drag for one photograph opening.
+         Same move, a little over half the travel; unchanged on desktop. */
+      className="relative h-[calc(820px+100vh)] w-full md:h-[calc(1500px+100vh)]"
     >
-      <CenterImage image={image} top={top} />
+      <CenterImage image={image} top={top} span={span} />
       <ParallaxImages shots={shots} />
       <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-b from-paper/0 to-paper" />
     </div>
@@ -117,9 +124,11 @@ function Hero({
 function CenterImage({
   image,
   top,
+  span,
 }: {
   image: { src: string; alt: string };
   top: React.RefObject<number>;
+  span: React.RefObject<number>;
 }) {
   const reduced = useReducedMotion();
   const { scrollY } = useScroll();
@@ -128,18 +137,18 @@ function CenterImage({
   const local = (v: number) => v - (top.current ?? 0);
 
   const clip1 = useTransform(scrollY, (v) =>
-    transform(local(v), [0, SECTION_HEIGHT], [25, 0]),
+    transform(local(v), [0, span.current], [25, 0]),
   );
   const clip2 = useTransform(scrollY, (v) =>
-    transform(local(v), [0, SECTION_HEIGHT], [75, 100]),
+    transform(local(v), [0, span.current], [75, 100]),
   );
   const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
 
   const scale = useTransform(scrollY, (v) =>
-    transform(local(v), [0, SECTION_HEIGHT + 500], [1.7, 1]),
+    transform(local(v), [0, span.current + 500], [1.7, 1]),
   );
   const opacity = useTransform(scrollY, (v) =>
-    transform(local(v), [SECTION_HEIGHT, SECTION_HEIGHT + 500], [1, 0]),
+    transform(local(v), [span.current, span.current + 500], [1, 0]),
   );
 
   // Reduced motion: the photo simply sits full-frame. Styles are dropped

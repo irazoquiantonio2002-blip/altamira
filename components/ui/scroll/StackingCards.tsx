@@ -80,7 +80,10 @@ function Card({
 
   return (
     <div
-      className="sticky flex h-[88svh] items-start justify-center"
+      // 70svh on a phone: the card inside is capped at 34rem, so nothing
+      // is cropped — there is simply less scroll between one card and the
+      // next.
+      className="sticky flex h-[70svh] items-start justify-center sm:h-[88svh]"
       // Stagger the pin line so earlier cards stay peeking above later ones.
       style={{ top: `calc(6.5rem + ${index * 1.75}rem)` }}
     >

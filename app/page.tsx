@@ -68,6 +68,7 @@ export default function Home() {
       <ClipRevealBand
         src="/img/instalaciones.jpg"
         alt="Vista aérea del campus de Colegio Altamira La Cima"
+        mobileHeight="160vh"
       >
         <span className="section-label !text-white/70">
           <span aria-hidden="true" className="size-[5px] bg-accent-500" />
@@ -81,6 +82,7 @@ export default function Home() {
       {/* ② ScrollChoreography — four photos arrive around a headline, gather
           into a pile, and the top one opens out. */}
       <ScrollChoreography
+        compact
         heading={{
           label: "Centrada en la Persona",
           title: "Cada persona es una gran novedad por descubrir y formar.",
